@@ -12,7 +12,12 @@ import Foundation
 //  associatedtype _Element: Comparable = Iterator.Element
 //}
 
-public struct SortedArray<Element: Comparable> : BidirectionalCollection, RangeReplaceableCollection,/* , ,, RandomAccessCollection,OrderedCollection,*/ ExpressibleByArrayLiteral   {
+
+
+public struct SortedArray<Element: Comparable> : MutableCollection, RangeReplaceableCollection,/* RandomAccessCollection, OrderedCollection,*/ ExpressibleByArrayLiteral  {
+
+  public typealias SubSequence = Slice<[Element]>
+  public typealias Index = Int
 
   private var content: [Element]
 
@@ -28,15 +33,15 @@ public struct SortedArray<Element: Comparable> : BidirectionalCollection, RangeR
     content = elements.sorted()
   }
 
-  public var startIndex: Int {
+  public var startIndex: Index {
     return content.startIndex
   }
 
-  public var endIndex: Int {
+  public var endIndex: Index {
     return content.endIndex
   }
 
-  public  subscript (index: Int) -> Element {
+  public  subscript (index: Index) -> Element {
     get {
       return content[index]
     }
@@ -45,11 +50,20 @@ public struct SortedArray<Element: Comparable> : BidirectionalCollection, RangeR
     }
   }
 
-  public func index(after index: Int) -> Int {
+  public subscript(bounds: Range<Index>) -> SubSequence {
+    get {
+      fatalError()
+    }
+    set {
+      fatalError()
+    }
+  }
+
+  public func index(after index: Index) -> Index {
     return index + 1
   }
 
-  public func index(before index: Int) -> Int {
+  public func index(before index: Index) -> Index {
     return index - 1
   }
 
@@ -67,8 +81,7 @@ public struct SortedArray<Element: Comparable> : BidirectionalCollection, RangeR
     content = content.sorted()
   }
 
-
-  public func index(of element: Element) -> Int? {
+  public func index(of element: Element) -> Index? {
 //    fatalError("implement")
     return content.index(of: element)
 //    return nil
