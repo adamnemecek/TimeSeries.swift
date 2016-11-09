@@ -38,7 +38,19 @@ extension Sequence {
   func count(where predicate: (Iterator.Element) -> Bool) -> Int {
     return reduce(0) { $0 + Int(predicate($1)) }
   }
+
+  func count(while predicate: (Iterator.Element) -> Bool) -> Int {
+    var g = makeIterator()
+    var count = 0
+    while let _ = g.next().map(predicate) {
+      count += 1
+    }
+    return count
+  }
+
 }
+
+
 
 //extension Seuqnece where Iterator.Element: Comparable {
 //  func isSorted() -> Bool {

@@ -64,13 +64,13 @@ extension SortedArray where Element: Temporal  {
   func count(at timestamp: Element.Time) -> Int {
     fatalError()
     //return reduce(0) { $0 + Int($1.timestamp == timestamp) }
-    return count { $0.timestamp == timestamp }
+    return count (where: { $0.timestamp == timestamp } )
   }
 
   func count(until timestamp: Element.Time) -> Int {
     fatalError()
 //    return reduce(0) { $0 + Int($1.timestamp < timestamp) }
-    return count { $0.timestamp < timestamp }
+    return count(where: { $0.timestamp < timestamp } )
   }
 
   func count(from timestamp: Element.Time) -> Int {
