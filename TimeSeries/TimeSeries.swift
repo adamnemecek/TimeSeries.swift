@@ -9,10 +9,10 @@
 import Foundation
 
 
-struct TimeSeriesIndex<Event: Temporal>: Comparable, DefaultConstructible, Temporal, ExpressibleByIntegerLiteral {
+public struct TimeSeriesIndex<Event: Temporal>: Comparable, DefaultConstructible, Temporal, ExpressibleByIntegerLiteral {
 
-  typealias Timestamp = Event.Time
-  let timestamp: Timestamp
+  public typealias Timestamp = Event.Time
+  public let timestamp: Timestamp
   //
   // this is the offset from (timestamp, 0)
   //
@@ -23,35 +23,35 @@ struct TimeSeriesIndex<Event: Temporal>: Comparable, DefaultConstructible, Tempo
   //
   fileprivate let index: Int?
 
-  init(timestamp: Timestamp = Timestamp(), offset: Int = 0, index: Int? = nil) {
+  public init(timestamp: Timestamp = Timestamp(), offset: Int = 0, index: Int? = nil) {
     self.timestamp = timestamp
     self.offset = offset
     self.index = index
   }
 
-  init() {
+  public init() {
     self.init(timestamp: Timestamp())
   }
 
-  init(integerLiteral value: Timestamp.IntegerLiteralType) {
+  public init(integerLiteral value: Timestamp.IntegerLiteralType) {
     self.init(timestamp: Timestamp(integerLiteral: value))
   }
 
-  static var min: TimeSeriesIndex {
+  public static var min: TimeSeriesIndex {
     return TimeSeriesIndex(timestamp: Timestamp.min, offset: 0)
   }
 
-  static var max: TimeSeriesIndex {
+  public static var max: TimeSeriesIndex {
     return TimeSeriesIndex(timestamp: Timestamp.max, offset: 0)
   }
 }
 
 
-func ==<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
+public func ==<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
   return lhs.timestamp == rhs.timestamp && lhs.index == rhs.index
 }
 
-func <<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
+public func <<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
   return (lhs.timestamp < rhs.timestamp && lhs.offset < rhs.offset) //||
 //         (lhs.timestamp != T.Time.max && rhs.timestamp == T.Time.max)
 }

@@ -8,16 +8,16 @@
 
 import Foundation
 
-protocol DefaultConstructible {
+public protocol DefaultConstructible {
   init()
 }
 
-protocol Infinite: DefaultConstructible, Comparable {
+public protocol Infinite: DefaultConstructible, Comparable {
   static var min: Self { get }
   static var max: Self { get }
 }
 
-protocol Temporal {
+public protocol Temporal {
   associatedtype Time: Infinite, Strideable, ExpressibleByIntegerLiteral
   var timestamp: Time { get }
 }
@@ -28,7 +28,7 @@ protocol Temporal {
 //  }
 //}
 
-extension Int {
+public extension Int {
   init(_ value: Bool) {
     self = value ? 1 : 0
   }
