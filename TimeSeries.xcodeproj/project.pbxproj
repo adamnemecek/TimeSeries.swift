@@ -11,6 +11,7 @@
 		37F888881DD2AAC200989091 /* TimeSeries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F888871DD2AAC200989091 /* TimeSeries.swift */; };
 		37F8888A1DD2AAD900989091 /* SortedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F888891DD2AAD900989091 /* SortedArray.swift */; };
 		37F8888C1DD2AAF400989091 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F8888B1DD2AAF400989091 /* Protocols.swift */; };
+		37F8888F1DD2C3B100989091 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 37F8888E1DD2C3B100989091 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +32,8 @@
 		37F888871DD2AAC200989091 /* TimeSeries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeries.swift; sourceTree = "<group>"; };
 		37F888891DD2AAD900989091 /* SortedArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedArray.swift; sourceTree = "<group>"; };
 		37F8888B1DD2AAF400989091 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		37F8888D1DD2C3A000989091 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		37F8888E1DD2C3B100989091 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +50,8 @@
 		37F888741DD2AAA200989091 = {
 			isa = PBXGroup;
 			children = (
+				37F8888E1DD2C3B100989091 /* README.md */,
+				37F8888D1DD2C3A000989091 /* LICENSE */,
 				37F8887F1DD2AAA200989091 /* TimeSeries */,
 				37F8887E1DD2AAA200989091 /* Products */,
 			);
@@ -131,6 +136,7 @@
 			files = (
 				37F888811DD2AAA200989091 /* main.swift in Sources */,
 				37F8888A1DD2AAD900989091 /* SortedArray.swift in Sources */,
+				37F8888F1DD2C3B100989091 /* README.md in Sources */,
 				37F888881DD2AAC200989091 /* TimeSeries.swift in Sources */,
 				37F8888C1DD2AAF400989091 /* Protocols.swift in Sources */,
 			);
