@@ -14,12 +14,12 @@ import Foundation
 
 
 
-public struct SortedArray<Element: Comparable> : MutableCollection, RangeReplaceableCollection,/* RandomAccessCollection, OrderedCollection,*/ ExpressibleByArrayLiteral  {
+public struct SortedArray<Element: Comparable> : MutableCollection, /* RandomAccessCollection, OrderedCollection,*/ ExpressibleByArrayLiteral {
 
-  public typealias SubSequence = Slice<[Element]>
+  public typealias SubSequence = ArraySlice<Element>
   public typealias Index = Int
 
-  private var content: [Element]
+  fileprivate var content: [Element]
 
   public init() {
     content = []
@@ -52,10 +52,10 @@ public struct SortedArray<Element: Comparable> : MutableCollection, RangeReplace
 
   public subscript(bounds: Range<Index>) -> SubSequence {
     get {
-      fatalError()
+      return content[bounds]
     }
     set {
-      fatalError()
+      content[bounds] = newValue
     }
   }
 
@@ -63,10 +63,29 @@ public struct SortedArray<Element: Comparable> : MutableCollection, RangeReplace
     return index + 1
   }
 
-  public func index(before index: Index) -> Index {
-    return index - 1
+
+  public func index(of element: Element) -> Index? {
+//    fatalError("implement")
+    return content.index(of: element)
+//    return nil
+  }
+}
+
+extension SortedArray {
+  public func sorted() -> [Element] {
+    return content
   }
 
+  public func max() -> Element? {
+    return content.last
+  }
+
+  public func min() -> Element? {
+    return content.first
+  }
+}
+
+extension SortedArray: RangeReplaceableCollection {
   public mutating
   func replaceSubrange<C: Collection>(_ subrange: Range<Int>, with newElements: C) where C.Iterator.Element == Element {
     //
@@ -81,25 +100,12 @@ public struct SortedArray<Element: Comparable> : MutableCollection, RangeReplace
     content = content.sorted()
   }
 
-  public func index(of element: Element) -> Index? {
-//    fatalError("implement")
-    return content.index(of: element)
-//    return nil
-  }
-
-  public func sorted() -> [Element] {
-    return content
-  }
-
-  public func max() -> Element? {
-    return content.last
-  }
-
-  public func min() -> Element? {
-    return content.first
-  }
 }
 
-
+extension SortedArray: BidirectionalCollection {
+  public func index(before index: Index) -> Index {
+    return index - 1
+  }
+}
 
 
