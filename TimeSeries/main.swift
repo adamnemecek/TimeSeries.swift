@@ -47,7 +47,8 @@ let q = (0...4).map { _ in Note() }
 let z = q + q[1...3]
 //let b = SortedArray<Note>(z)
 
-print(z.sorted())
+dump(z.sorted())
+print(z.sorted() == z)
 
 
 
