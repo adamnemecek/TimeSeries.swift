@@ -56,29 +56,6 @@ func <<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
 }
 
 
-extension SortedArray where Element: Temporal  {
-  func indices(of domain: Range<Element.Time>) -> Range<Int> {
-    fatalError()
-  }
-
-  func count(at timestamp: Element.Time) -> Int {
-    fatalError()
-    //return reduce(0) { $0 + Int($1.timestamp == timestamp) }
-    return count (where: { $0.timestamp == timestamp } )
-  }
-
-  func count(until timestamp: Element.Time) -> Int {
-    fatalError()
-//    return reduce(0) { $0 + Int($1.timestamp < timestamp) }
-    return count(where: { $0.timestamp < timestamp } )
-  }
-
-  func count(from timestamp: Element.Time) -> Int {
-//    return reduce(0) { $0 + Int(timestamp < $1.timestamp) }
-    fatalError()
-  }
-
-}
 
 extension Range {
 	init(bound: Bound) {

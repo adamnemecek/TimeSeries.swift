@@ -8,5 +8,10 @@
 
 import Foundation
 
-print("Hello, World!")
+
+let a: SortedArray = [5,2,3,4,1]
+
+print(a)
+
+
 

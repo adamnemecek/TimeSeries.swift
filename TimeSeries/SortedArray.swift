@@ -8,13 +8,6 @@
 
 import Foundation
 
-//protocol OrderedCollection: Collection {
-//  associatedtype _Element: Comparable = Iterator.Element
-//}
-
-
-
-
 public struct SortedArray<Element: Comparable> : MutableCollection, ExpressibleByArrayLiteral {
 
   public typealias SubSequence = ArraySlice<Element>
@@ -48,6 +41,7 @@ public struct SortedArray<Element: Comparable> : MutableCollection, ExpressibleB
     }
     set {
       content[index] = newValue
+      content = content.sorted()
     }
   }
 
@@ -56,7 +50,7 @@ public struct SortedArray<Element: Comparable> : MutableCollection, ExpressibleB
       return content[bounds]
     }
     set {
-      content[bounds] = newValue
+      replaceSubrange(bounds, with: newValue)
     }
   }
 
@@ -109,4 +103,27 @@ extension SortedArray: BidirectionalCollection {
   }
 }
 
+
+extension SortedArray where Element: Temporal  {
+  func indices(of domain: Range<Element.Time>) -> Range<Int> {
+    fatalError()
+  }
+
+  func count(at timestamp: Element.Time) -> Int {
+    fatalError()
+    //return reduce(0) { $0 + Int($1.timestamp == timestamp) }
+    return count (where: { $0.timestamp == timestamp } )
+  }
+
+  func count(until timestamp: Element.Time) -> Int {
+    fatalError()
+//    return reduce(0) { $0 + Int($1.timestamp < timestamp) }
+    return count(where: { $0.timestamp < timestamp } )
+  }
+
+  func count(from timestamp: Element.Time) -> Int {
+//    return reduce(0) { $0 + Int(timestamp < $1.timestamp) }
+    fatalError()
+  }
+}
 
