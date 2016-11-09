@@ -55,6 +55,8 @@ print(b)
 let t = TimeSeries(b)
 print(t)
 
+print(t[0...1000])
+
 
 
 

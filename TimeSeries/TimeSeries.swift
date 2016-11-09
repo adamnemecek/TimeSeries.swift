@@ -58,7 +58,7 @@ public func <<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
 
 
 
-public struct TimeSeries<Event: Temporal & Comparable>: MutableCollection {
+public struct TimeSeries<Event: Temporal>: MutableCollection {
 
   public typealias Timestamp = Event.Time
   public typealias Index = TimeSeriesIndex<Event>
@@ -68,13 +68,6 @@ public struct TimeSeries<Event: Temporal & Comparable>: MutableCollection {
 
   public init() {
     content = []
-  }
-
-  fileprivate var domain: ClosedRange<Timestamp> {
-    let q = first.map { $0.timestamp...Timestamp.max }
-
-    return q ?? Timestamp()...Timestamp()
-
   }
 
 
@@ -121,8 +114,8 @@ public struct TimeSeries<Event: Temporal & Comparable>: MutableCollection {
 extension TimeSeries: BidirectionalCollection {
   public func index(before index: Index) -> Index {
     fatalError()
-//    let idx = lindex(index: index) + 1
-//    return idx < content.endIndex ? self.index(for: idx) : endIndex
+//    let idx = lindex(index: index) - 1
+//    return 0 < idx ? self.index(for: idx) : Index(timestamp: 0, offset: 0, index: 0)
   }
 }
 
@@ -139,9 +132,16 @@ fileprivate extension TimeSeries {
   //
   // calculate linear index
   //
+
+  fileprivate var domain: ClosedRange<Timestamp> {
+    let q = first.map { $0.timestamp...Timestamp.max }
+
+    return q ?? Timestamp()...Timestamp()
+
+  }
+
   fileprivate func lindex(timestamp: Timestamp, offset: Int) -> Int {
-//    return content.count(until: index.timestamp) + offset
-    fatalError()
+    return content.count(until: timestamp) + offset
   }
 
   fileprivate func lindex(index: Index) -> Int {
@@ -151,7 +151,6 @@ fileprivate extension TimeSeries {
   fileprivate func linrange(bounds: Range<Index>) -> Range<Int> {
     return lindex(index: bounds.lowerBound)..<lindex(index: bounds.upperBound)
   }
-
 
   fileprivate func index(for index: Int) -> Index {
     let event = content[index]

@@ -81,8 +81,7 @@ extension SortedArray {
 }
 
 extension SortedArray: RangeReplaceableCollection {
-  public mutating
-  func replaceSubrange<C: Collection>(_ subrange: Range<Int>, with newElements: C) where C.Iterator.Element == Element {
+  public mutating func replaceSubrange<C: Collection>(_ subrange: Range<Int>, with newElements: C) where C.Iterator.Element == Element {
     //
     // todo: optimize
     //
@@ -110,13 +109,13 @@ extension SortedArray where Element: Temporal  {
   }
 
   func count(at timestamp: Element.Time) -> Int {
-    fatalError()
+//    fatalError()
     //return reduce(0) { $0 + Int($1.timestamp == timestamp) }
     return count (where: { $0.timestamp == timestamp } )
   }
 
   func count(until timestamp: Element.Time) -> Int {
-    fatalError()
+//    fatalError()
 //    return reduce(0) { $0 + Int($1.timestamp < timestamp) }
     return count(where: { $0.timestamp < timestamp } )
   }
