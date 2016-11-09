@@ -51,14 +51,8 @@ func ==<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
 }
 
 func <<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
-  return (lhs.timestamp < rhs.timestamp && lhs.index < rhs.index) ||
-         (lhs.timestamp != T.Time.max && rhs.timestamp == T.Time.max)
-}
-
-extension Sequence {
-  func count(where predicate: (Iterator.Element) -> Bool) -> Int {
-    return reduce(0) { $0 + Int(predicate($1)) }
-  }
+  return (lhs.timestamp < rhs.timestamp && lhs.offset < rhs.offset) //||
+//         (lhs.timestamp != T.Time.max && rhs.timestamp == T.Time.max)
 }
 
 

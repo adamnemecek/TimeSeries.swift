@@ -28,6 +28,17 @@ extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Element == 
   }
 }
 
+extension Int {
+  init(_ value: Bool) {
+    self = value ? 1 : 0
+  }
+}
+
+extension Sequence {
+  func count(where predicate: (Iterator.Element) -> Bool) -> Int {
+    return reduce(0) { $0 + Int(predicate($1)) }
+  }
+}
 
 //extension Seuqnece where Iterator.Element: Comparable {
 //  func isSorted() -> Bool {
