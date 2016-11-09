@@ -58,24 +58,53 @@ public func <<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
 
 
 
+public struct TimeSeries<Event: Temporal & Comparable>: RangeReplaceableCollection, MutableCollection {
 
 
-/*
-struct TimeSeries<Event: Temporal>: BidirectionalCollection, RangeReplaceableCollection, MutableCollection {
+  /// Accesses a contiguous subrange of the collection's elements.
+  ///
+  /// The accessed slice uses the same indices for the same elements as the
+  /// original collection. Always use the slice's `startIndex` property
+  /// instead of assuming that its indices start at a particular value.
+  ///
+  /// This example demonstrates getting a slice of an array of strings, finding
+  /// the index of one of the strings in the slice, and then using that index
+  /// in the original array.
+  ///
+  ///     let streets = ["Adams", "Bryant", "Channing", "Douglas", "Evarts"]
+  ///     let streetsSlice = streets[2 ..< streets.endIndex]
+  ///     print(streetsSlice)
+  ///     // Prints "["Channing", "Douglas", "Evarts"]"
+  ///
+  ///     let index = streetsSlice.index(of: "Evarts")    // 4
+  ///     streets[index!] = "Eustace"
+  ///     print(streets[index!])
+  ///     // Prints "Eustace"
+  ///
+  /// - Parameter bounds: A range of the collection's indices. The bounds of
+  ///   the range must be valid indices of the collection.
+
 
   private var content: SortedArray<Event> = []
-  typealias Index = TimeSeriesIndex<Event>
-  typealias SubSequence = Slice<SortedArray<Event>>
+  public typealias Timestamp = Event.Time
+  public typealias Index = TimeSeriesIndex<Event>
+  public typealias SubSequence = ArraySlice<Event>
 
-  var domain: Range<Event.Time> {
-    return first.map { $0.timestamp...Event.Time.max } ?? Event.Time()..<Event.Time()
+  public init() {
+    content = []
+  }
+
+  private var domain: Range<Event.Time> {
+//    return first.map { $0.timestamp...Timestamp.max } ?? Timestamp()..<Timestamp()
+    fatalError()
   }
 
   //
   // calculate linear index
   //
-  private func lindex(timestamp: Event.Time, offset: Int) -> Int {
-    return content.count(until: index.timestamp) + offset
+  private func lindex(timestamp: Timestamp, offset: Int) -> Int {
+//    return content.count(until: index.timestamp) + offset
+    fatalError()
   }
 
   private func lindex(index: Index) -> Int {
@@ -88,29 +117,29 @@ struct TimeSeries<Event: Temporal>: BidirectionalCollection, RangeReplaceableCol
 
 
   private func index(for index: Int) -> Index {
-    let event = content[offset]
+    let event = content[index]
     let until = content.count(until: event.timestamp)
 
     return Index(timestamp: event.timestamp, offset: index - until, index: index)
   }
 
-  var startIndex: Index {
-    return Index(timestamp: domain.lowerBound, index: 0, linearIndex: 0)
+  public var startIndex: Index {
+    return Index(timestamp: domain.lowerBound, offset: 0, index: 0)
   }
 
-  var endIndex: Index {
+  public var endIndex: Index {
     //
     // note that upperBound might be Evnet.Time.max'
     //
-    return Index(timestamp: domain.upperBound, index: 0, linearIndex: content.endIndex)
+    return Index(timestamp: domain.upperBound, offset: 0, index: content.endIndex)
   }
 
-  func index(after index: Index) -> Index {
+  public func index(after index: Index) -> Index {
     let idx = lindex(index: index) + 1
-    return idx < content.endIndex ? index(for: idx) : endIndex
+    return idx < content.endIndex ? self.index(for: idx) : endIndex
   }
 
-  subscript (index: Index) -> Event {
+  public subscript (index: Index) -> Event {
     get {
       return content[lindex(index: index)]
     }
@@ -119,18 +148,23 @@ struct TimeSeries<Event: Temporal>: BidirectionalCollection, RangeReplaceableCol
     }
   }
 
-//  subscript (bounds: Range<Index>) -> SubSequence {
-//    fatalError()
-//  }
-
-  func makeIterator() -> AnyIterator<Event> {
-    return content.makeIterator()
+  public subscript(bounds: Range<TimeSeriesIndex<Event>>) -> SubSequence {
+    get {
+      return content[linrange(bounds: bounds)]
+    }
+    set {
+      fatalError()
+//      replaceSubrange(linrange(bounds: bounds), with: newValue)
+    }
   }
 
-  mutating
-  func replaceSubrange<C : Collection>(_ subrange: Range<Index>, with newElements: C) where C.Iterator.Element == Event {
+  public func makeIterator() -> AnyIterator<Event> {
+    return AnyIterator(content.makeIterator())
+  }
+
+  public mutating func replaceSubrange<C : Collection>(_ subrange: Range<Index>, with newElements: C) where C.Iterator.Element == Event {
     let r = linrange(bounds: subrange)
-    content.replaceSubRange(r, newElements)
+    content.replaceSubrange(r, with: newElements)
   }
 
-}*/
+}
