@@ -38,7 +38,7 @@ public struct TimeSeriesIndex<Event: Temporal>: Comparable, DefaultConstructible
   }
 
   public static var min: TimeSeriesIndex {
-    return TimeSeriesIndex(timestamp: Timestamp.min, offset: 0)
+    return TimeSeriesIndex(timestamp: Timestamp(), offset: 0)
   }
 
   public static var max: TimeSeriesIndex {
