@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct SortedArray<Element: Comparable> : MutableCollection, ExpressibleByArrayLiteral {
+public struct SortedArray<Element: Comparable> : MutableCollection, ExpressibleByArrayLiteral, DefaultConstructible {
 
   public typealias SubSequence = ArraySlice<Element>
   public typealias Index = Int
@@ -35,7 +35,7 @@ public struct SortedArray<Element: Comparable> : MutableCollection, ExpressibleB
     return content.endIndex
   }
 
-  public  subscript (index: Index) -> Element {
+  public subscript (index: Index) -> Element {
     get {
       return content[index]
     }

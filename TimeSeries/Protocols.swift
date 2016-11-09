@@ -22,16 +22,22 @@ protocol Temporal {
   var timestamp: Time { get }
 }
 
-extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Element == Iterator.Element {
-  func tuples() -> AnyIterator<(Iterator.Element, Iterator.Element)> {
-    return AnyIterator(zip(self, dropFirst()).makeIterator())
-  }
-}
+//extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Element == Iterator.Element {
+//  func tuples() -> AnyIterator<(Iterator.Element, Iterator.Element)> {
+//    return AnyIterator(zip(self, dropFirst()).makeIterator())
+//  }
+//}
 
 extension Int {
   init(_ value: Bool) {
     self = value ? 1 : 0
   }
+}
+
+extension Range {
+	init(bound: Bound) {
+		self.init(bound..<bound)
+	}
 }
 
 extension Sequence {
@@ -42,7 +48,7 @@ extension Sequence {
   func count(while predicate: (Iterator.Element) -> Bool) -> Int {
     var g = makeIterator()
     var count = 0
-    while let _ = g.next().map(predicate) {
+    while let c = g.next().map(predicate), c {
       count += 1
     }
     return count

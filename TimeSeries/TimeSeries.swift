@@ -9,9 +9,10 @@
 import Foundation
 
 
-
 struct TimeSeriesIndex<Event: Temporal>: Comparable, DefaultConstructible, Temporal, ExpressibleByIntegerLiteral {
-  let timestamp: Event.Time
+
+  typealias Timestamp = Event.Time
+  let timestamp: Timestamp
   //
   // this is the offset from (timestamp, 0)
   //
@@ -22,26 +23,26 @@ struct TimeSeriesIndex<Event: Temporal>: Comparable, DefaultConstructible, Tempo
   //
   fileprivate let index: Int?
 
-  init(timestamp: Event.Time = Event.Time(), offset: Int = 0, index: Int? = nil) {
+  init(timestamp: Timestamp = Timestamp(), offset: Int = 0, index: Int? = nil) {
     self.timestamp = timestamp
     self.offset = offset
     self.index = index
   }
 
   init() {
-    self.init(timestamp: Event.Time())
+    self.init(timestamp: Timestamp())
   }
 
-  init(integerLiteral value: Event.Time.IntegerLiteralType) {
-    self.init(timestamp: Event.Time(integerLiteral: value))
+  init(integerLiteral value: Timestamp.IntegerLiteralType) {
+    self.init(timestamp: Timestamp(integerLiteral: value))
   }
 
   static var min: TimeSeriesIndex {
-    return TimeSeriesIndex(timestamp: Event.Time.min, offset: 0)
+    return TimeSeriesIndex(timestamp: Timestamp.min, offset: 0)
   }
 
   static var max: TimeSeriesIndex {
-    return TimeSeriesIndex(timestamp: Event.Time.max, offset: 0)
+    return TimeSeriesIndex(timestamp: Timestamp.max, offset: 0)
   }
 }
 
@@ -57,11 +58,7 @@ func <<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
 
 
 
-extension Range {
-	init(bound: Bound) {
-		self.init(bound..<bound)
-	}
-}
+
 
 /*
 struct TimeSeries<Event: Temporal>: BidirectionalCollection, RangeReplaceableCollection, MutableCollection {
