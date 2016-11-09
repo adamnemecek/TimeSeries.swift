@@ -80,7 +80,7 @@ extension SortedArray {
 }
 
 extension SortedArray: RangeReplaceableCollection {
-  public mutating func replaceSubrange<C: Collection>(_ subrange: Range<Int>, with newElements: C) where C.Iterator.Element == Element {
+  public mutating func replaceSubrange<C: Collection>(_ subrange: Range<Index>, with newElements: C) where C.Iterator.Element == Element {
     //
     // todo: optimize
     //

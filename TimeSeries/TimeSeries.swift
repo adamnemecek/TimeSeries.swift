@@ -73,7 +73,8 @@ public struct TimeSeries<Event: Temporal>: MutableCollection {
   public typealias Index = TimeSeriesIndex<Event>
   public typealias SubSequence = ArraySlice<Event>
 
-  fileprivate var content: SortedArray<Event> = []
+  //todo: make  fileprivate
+   var content: SortedArray<Event> = []
 
   public init() {
     content = []

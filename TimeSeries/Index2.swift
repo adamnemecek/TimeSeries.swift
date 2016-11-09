@@ -22,6 +22,13 @@ enum Index2<E: Temporal>: Comparable, ExpressibleByIntegerLiteral {
   internal init(index: Int) {
     self = .linear(index: index)
   }
+
+  var isLinear: Bool {
+    if case .linear = self {
+      return true
+    }
+    return false
+  }
 }
 
 func ==<E>(lhs: Index2<E>, rhs: Index2<E>) -> Bool {
@@ -47,6 +54,36 @@ func <<E>(lhs: Index2<E>, rhs: Index2<E>) -> Bool {
   }
 }
 
+
+extension TimeSeries {
+  var startIndex2: Index2<Event> {
+    return .linear(index: content.startIndex)
+  }
+
+  var endIndex2: Index2<Event> {
+    return .linear(index: content.endIndex)
+  }
+
+  private func linearize(index: Index2<Event>) -> Int? {
+    switch index {
+      case .linear(let i):
+        return i
+      case .complex(let timestamp, let offset):
+        guard let idx = (content.index { $0.timestamp == timestamp }) else { return nil }
+//        return .linear(index: idx + offset)
+        return idx + offset
+    }
+  }
+
+  subscript (index2 index: Index2<Event>) -> Event? {
+    return linearize(index: index).map { content[$0] }
+  }
+
+  func index2(after index: Index2<Event>) -> Index2<Event> {
+    fatalError()
+  }
+
+}
 
 //extension TimeSeries {
 //  typealias Ind = Index2<Event>
