@@ -12,14 +12,15 @@ import Foundation
 //  associatedtype _Element: Comparable = Iterator.Element
 //}
 
-struct SortedArray<Element: Comparable> : BidirectionalCollection,  /* MutableCollection, RangeReplaceableCollection,, RandomAccessCollection,OrderedCollection,*/ ExpressibleByArrayLiteral   {
+public struct SortedArray<Element: Comparable> : BidirectionalCollection, RangeReplaceableCollection,/* , ,, RandomAccessCollection,OrderedCollection,*/ ExpressibleByArrayLiteral   {
+
   private var content: [Element]
 
   public init() {
     content = []
   }
 
-  init<S: Sequence>(_ seq: S) where S.Iterator.Element == Element {
+  public init<S: Sequence>(_ seq: S) where S.Iterator.Element == Element {
     content = seq.sorted()
   }
 
@@ -35,7 +36,7 @@ struct SortedArray<Element: Comparable> : BidirectionalCollection,  /* MutableCo
     return content.endIndex
   }
 
-  subscript (index: Int) -> Element {
+  public  subscript (index: Int) -> Element {
     get {
       return content[index]
     }
@@ -44,11 +45,11 @@ struct SortedArray<Element: Comparable> : BidirectionalCollection,  /* MutableCo
     }
   }
 
-  func index(after index: Int) -> Int {
+  public func index(after index: Int) -> Int {
     return index + 1
   }
 
-  func index(before index: Int) -> Int {
+  public func index(before index: Int) -> Int {
     return index - 1
   }
 
@@ -61,27 +62,27 @@ struct SortedArray<Element: Comparable> : BidirectionalCollection,  /* MutableCo
     content = content.sorted()
   }
 
-  mutating
-  func append<S: Sequence>(contentsOf newElements: S) where S.Iterator.Element == Element {
+  public mutating func append<S: Sequence>(contentsOf newElements: S) where S.Iterator.Element == Element {
     content.append(contentsOf: newElements)
     content = content.sorted()
   }
 
-  func index(of element: Element) -> Int? {
+
+  public func index(of element: Element) -> Int? {
 //    fatalError("implement")
     return content.index(of: element)
 //    return nil
   }
 
-  func sorted() -> [Element] {
+  public func sorted() -> [Element] {
     return content
   }
 
-  func max() -> Element? {
+  public func max() -> Element? {
     return content.last
   }
 
-  func min() -> Element? {
+  public func min() -> Element? {
     return content.first
   }
 }
