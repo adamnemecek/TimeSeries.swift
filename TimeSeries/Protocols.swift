@@ -17,8 +17,8 @@ public protocol Infinite: DefaultConstructible, Comparable {
   static var max: Self { get }
 }
 
-public protocol Temporal {
-  associatedtype Time: Infinite, Strideable, ExpressibleByIntegerLiteral
+public protocol Temporal: Comparable {
+  associatedtype Time: Infinite, Strideable, ExpressibleByIntegerLiteral, Comparable
   var timestamp: Time { get }
 }
 

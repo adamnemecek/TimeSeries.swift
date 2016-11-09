@@ -12,18 +12,22 @@ import Foundation
 let a: SortedArray = [5,2,3,4,1]
 
 extension Int {
-  static func random() -> Int {
-    return Int(arc4random_uniform(UInt32.max))
+  static func random(_ max: UInt32 = UInt32.max) -> Int {
+    return Int(arc4random_uniform(max))
   }
 }
 
 
 extension Int: Infinite {}
 
-struct Note: Temporal {
-  let timestamp: Int = Int.random()
-  let duration: Int = Int.random()
-  let pitch: Int = Int.random()
+struct Note: Temporal, CustomStringConvertible {
+  let timestamp: Int = Int.random(10000)
+  let duration: Int = Int.random(50)
+  let pitch: Int = Int.random(128)
+
+  var description: String {
+    return "Note(timestamp:\(timestamp), duration:\(duration), pitch: \(pitch)"
+  }
 }
 
 func ==(lhs: Note, rhs: Note) -> Bool {
@@ -34,10 +38,18 @@ func ==(lhs: Note, rhs: Note) -> Bool {
 
 func <(lhs: Note, rhs: Note) -> Bool {
   return lhs.timestamp < rhs.timestamp &&
-        lhs.pitch < rhs.pitch
+        lhs.pitch < rhs.pitch &&
+        lhs.duration < rhs.duration
+
 }
 
-let n = Note()
+let q = (0...4).map { _ in Note() }
+let z = q + q[1...3]
+//let b = SortedArray<Note>(z)
+
+print(z.sorted())
+
+
 
 
 
