@@ -58,7 +58,6 @@ public struct SortedArray<Element: Comparable> : MutableCollection, ExpressibleB
     return index + 1
   }
 
-
   public func index(of element: Element) -> Index? {
 //    fatalError("implement")
     return content.index(of: element)
@@ -93,7 +92,6 @@ extension SortedArray: RangeReplaceableCollection {
     content.append(contentsOf: newElements)
     content = content.sorted()
   }
-
 }
 
 extension SortedArray: BidirectionalCollection {

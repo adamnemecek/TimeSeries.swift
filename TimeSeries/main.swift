@@ -11,6 +11,7 @@ import Foundation
 
 let a: SortedArray = [5,2,3,4,1]
 
+
 extension Int {
   static func random(_ max: UInt32 = UInt32.max) -> Int {
     return Int(arc4random_uniform(max))
@@ -42,7 +43,7 @@ func <(lhs: Note, rhs: Note) -> Bool {
 
 }
 
-let q = (0...4).map { _ in Note() }
+let q = (0...4).map { _ in Note(timestamp: $0 * 10, duration : $0 * 10, pitch : $0 * 10) }
 let z = q + q[1...3]
 let n = (0...10).map { _ in Int.random(100) }
 let b = SortedArray<Note>(q)

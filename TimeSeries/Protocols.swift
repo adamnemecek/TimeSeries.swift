@@ -22,6 +22,10 @@ public protocol Temporal: Comparable {
   var timestamp: Timestamp { get }
 }
 
+protocol UniquelyHashable: Hashable {
+  
+}
+
 //extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Element == Iterator.Element {
 //  func tuples() -> AnyIterator<(Iterator.Element, Iterator.Element)> {
 //    return AnyIterator(zip(self, dropFirst()).makeIterator())

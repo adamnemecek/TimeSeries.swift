@@ -12,6 +12,7 @@
 		37F8888A1DD2AAD900989091 /* SortedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F888891DD2AAD900989091 /* SortedArray.swift */; };
 		37F8888C1DD2AAF400989091 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F8888B1DD2AAF400989091 /* Protocols.swift */; };
 		37F8888F1DD2C3B100989091 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 37F8888E1DD2C3B100989091 /* README.md */; };
+		37F888941DD3811700989091 /* Scratchpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F888931DD3811700989091 /* Scratchpad.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,6 +35,7 @@
 		37F8888B1DD2AAF400989091 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		37F8888D1DD2C3A000989091 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		37F8888E1DD2C3B100989091 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		37F888931DD3811700989091 /* Scratchpad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scratchpad.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				37F888891DD2AAD900989091 /* SortedArray.swift */,
 				37F8888B1DD2AAF400989091 /* Protocols.swift */,
 				37F888871DD2AAC200989091 /* TimeSeries.swift */,
+				37F888931DD3811700989091 /* Scratchpad.swift */,
 			);
 			path = TimeSeries;
 			sourceTree = "<group>";
@@ -134,6 +137,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37F888941DD3811700989091 /* Scratchpad.swift in Sources */,
 				37F888811DD2AAA200989091 /* main.swift in Sources */,
 				37F8888A1DD2AAD900989091 /* SortedArray.swift in Sources */,
 				37F8888F1DD2C3B100989091 /* README.md in Sources */,

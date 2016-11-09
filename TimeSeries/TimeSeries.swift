@@ -56,7 +56,17 @@ public func <<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
 //         (lhs.timestamp != T.Time.max && rhs.timestamp == T.Time.max)
 }
 
+extension TimeSeriesIndex: CustomStringConvertible {
+  public var description: String {
+    return "TimeSeriesIndex(timestamp: \(timestamp), offset: \(offset), index: \(index))"
+  }
+}
 
+
+func tee<T>(_ msg: String? = nil, _ t: T) -> T {
+  print(msg ?? "", t)
+  return t
+}
 
 public struct TimeSeries<Event: Temporal>: MutableCollection {
 
@@ -71,7 +81,8 @@ public struct TimeSeries<Event: Temporal>: MutableCollection {
   }
 
   public var startIndex: Index {
-    return Index(timestamp: domain.lowerBound, offset: 0, index: 0)
+
+    return tee("startindex: ", Index(timestamp: domain.lowerBound, offset: 0, index: 0))
   }
 
   public var endIndex: Index {
@@ -82,8 +93,11 @@ public struct TimeSeries<Event: Temporal>: MutableCollection {
   }
 
   public func index(after index: Index) -> Index {
-    let idx = lindex(index: index) + 1
-    return idx < content.endIndex ? self.index(for: idx) : endIndex
+    let idx: Int = lindex(index: index) + 1
+    let g = idx < content.endIndex ? self.index(for: idx) : endIndex
+    print("index \(index) -> \(g)")
+
+    return g
   }
 
   public subscript (index: Index) -> Event {
@@ -95,11 +109,19 @@ public struct TimeSeries<Event: Temporal>: MutableCollection {
     }
   }
 
-  public subscript(bounds: Range<TimeSeriesIndex<Event>>) -> SubSequence {
+  public subscript(bounds: Range<Index>) -> SubSequence {
     get {
-      let ind = linrange(bounds: bounds)
-      dump(ind)
-      return content[ind]
+//      let ind = linrange(bounds: bounds)
+//      dump(ind)
+//      return content[ind]
+      let i = indices.filter { bounds.contains($0) }
+      print("indices: \(i)")
+      print("self.indices: \(self.indices)")
+      return i.extrema.map { self.content[$0.first.index!..<$0.last.index!] } ?? []
+
+//      return i.extrema.map { self.content[Range(uncheckedBounds: $0)] } ?? []
+//      fatalError()
+
     }
     set {
       fatalError()
@@ -140,12 +162,11 @@ fileprivate extension TimeSeries {
 
   fileprivate var domain: ClosedRange<Timestamp> {
     let q = first.map { $0.timestamp...Timestamp.max }
-
     return tee(q ?? Timestamp()...Timestamp())
-
   }
 
   fileprivate func lindex(timestamp: Timestamp, offset: Int) -> Int {
+//    let z = 
     return tee(content.count(until: timestamp) + offset)
   }
 
