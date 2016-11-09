@@ -7,11 +7,11 @@
 //
 
 import Foundation
-/*
-protocol TemporalIntegral: Temporal, ExpressibleByIntegerLiteral { }
 
-struct TimeSeriesIndex<Element: TemporalIntegral>: Comparable, DefaultConstructible, Temporal, ExpressibleByIntegerLiteral {
-  let timestamp: Element.Time
+
+
+struct TimeSeriesIndex<Event: Temporal>: Comparable, DefaultConstructible, Temporal, ExpressibleByIntegerLiteral {
+  let timestamp: Event.Time
   //
   // this is the offset from (timestamp, 0)
   //
@@ -22,37 +22,41 @@ struct TimeSeriesIndex<Element: TemporalIntegral>: Comparable, DefaultConstructi
   //
   fileprivate let index: Int?
 
-  init(timestamp: Element.Time = Element.Time(), offset: Int = 0, index: Int? = nil) {
+  init(timestamp: Event.Time = Event.Time(), offset: Int = 0, index: Int? = nil) {
     self.timestamp = timestamp
     self.offset = offset
     self.index = index
   }
 
-  init(integerLiteral value: IntegerLiteralType) {
+  init() {
+    self.init(timestamp: Event.Time())
+  }
+
+  init(integerLiteral value: Event.Time.IntegerLiteralType) {
     self.init(timestamp: Event.Time(integerLiteral: value))
   }
 
   static var min: TimeSeriesIndex {
-    return TimeSeries1Index(timestamp: Element.Time.min, offset: 0)
+    return TimeSeriesIndex(timestamp: Event.Time.min, offset: 0)
   }
 
   static var max: TimeSeriesIndex {
-    return TimeSeries1Index(timestamp: Element.Time.max, offset: 0)
+    return TimeSeriesIndex(timestamp: Event.Time.max, offset: 0)
   }
 }
 
 
-func ==<T>(lhs: TimeSeries1Index<T>, rhs: TimeSeries1Index<T>) -> Bool {
+func ==<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
   return lhs.timestamp == rhs.timestamp && lhs.index == rhs.index
 }
 
-func <<T>(lhs: TimeSeries1Index<T>, rhs: TimeSeries1Index<T>) -> Bool {
+func <<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
   return (lhs.timestamp < rhs.timestamp && lhs.index < rhs.index) ||
          (lhs.timestamp != T.Time.max && rhs.timestamp == T.Time.max)
 }
 
 extension Sequence {
-  func count(where: (Iterator.Element) -> Bool) -> Int {
+  func count(where predicate: (Iterator.Element) -> Bool) -> Int {
     return reduce(0) { $0 + Int(predicate($1)) }
   }
 }
@@ -60,7 +64,7 @@ extension Sequence {
 
 extension SortedArray where Element: Temporal  {
   func indices(of domain: Range<Element.Time>) -> Range<Int> {
-
+    fatalError()
   }
 
   func count(at timestamp: Element.Time) -> Int {
@@ -82,16 +86,13 @@ extension SortedArray where Element: Temporal  {
 
 }
 
-//extension BidirectionalCollection {
-//}
-
 extension Range {
 	init(bound: Bound) {
 		self.init(bound..<bound)
 	}
 }
 
-
+/*
 struct TimeSeries<Event: Temporal>: BidirectionalCollection, RangeReplaceableCollection, MutableCollection {
 
   private var content: SortedArray<Event> = []

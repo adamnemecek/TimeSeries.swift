@@ -18,7 +18,22 @@ protocol Infinite: DefaultConstructible, Comparable {
 }
 
 protocol Temporal {
-  associatedtype Time: Infinite, Strideable
+  associatedtype Time: Infinite, Strideable, ExpressibleByIntegerLiteral
   var timestamp: Time { get }
 }
 
+extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Element == Iterator.Element {
+  func tuples() -> AnyIterator<(Iterator.Element, Iterator.Element)> {
+    return AnyIterator(zip(self, dropFirst()).makeIterator())
+  }
+}
+
+
+//extension Seuqnece where Iterator.Element: Comparable {
+//  func isSorted() -> Bool {
+//    for (a,b) in tuples() where a > b{
+//      return false
+//    }
+//    return true
+//  }
+//}

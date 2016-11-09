@@ -14,7 +14,8 @@ import Foundation
 
 
 
-public struct SortedArray<Element: Comparable> : MutableCollection, /* RandomAccessCollection, OrderedCollection,*/ ExpressibleByArrayLiteral {
+
+public struct SortedArray<Element: Comparable> : MutableCollection, ExpressibleByArrayLiteral {
 
   public typealias SubSequence = ArraySlice<Element>
   public typealias Index = Int
