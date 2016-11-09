@@ -44,6 +44,8 @@ extension Range {
 	}
 }
 
+
+
 extension Sequence {
   func count(where predicate: (Iterator.Element) -> Bool) -> Int {
     return reduce(0) { $0 + Int(predicate($1)) }
@@ -60,6 +62,66 @@ extension Sequence {
 
 }
 
+protocol SortedCollection: BidirectionalCollection {
+  associatedtype _Element: Comparable = Iterator.Element
+}
+
+//extension SortedCollection where Self: BidirectionalCollection {
+//  func lastIndex(at timestamp: Timestamp) -> Index? {
+//    return index { $0.timestamp == timestamp }
+//  }
+//}
+
+
+//
+// todo
+//
+//extension SortedCollection {
+//  func index(of: Iterator.Element) -> Index {
+//    fatalError()
+//  }
+//}
+
+extension SortedCollection where Iterator.Element: Temporal {
+  typealias Timestamp = Iterator.Element.Timestamp
+
+  func firstIndex(at timestamp: Timestamp) -> Index? {
+    return index { $0.timestamp == timestamp }
+  }
+
+  func lastIndex(at timestamp: Timestamp) -> Index? {
+    for (i,e) in zip(indices, self).reversed() where e.timestamp == timestamp {
+      return i as? Index
+    }
+    return nil
+  }
+
+//  func indices(for range: Range<Timestamp>) -> Range<Index> {
+    //
+    // binsearch from the beginning and end
+
+    //
+//    let q = self.index(of: self[startIndex])
+
+//  }
+
+//  func count(at timestamp: Timestamp) -> Int {
+//    return indices(for: )
+//  }
+
+  func count(before timestamp: Timestamp) -> Int {
+    return filter { $0.timestamp < timestamp }.count
+  }
+
+  func count(after timestamp: Timestamp) -> Int {
+    return filter { $0.timestamp > timestamp }.count
+  }
+
+//
+//  func count(after timestamp: Timestamp) -> Int {
+//    return filter { $0.timestamp > timestamp }.count
+//  }
+}
 
 
 //extension Seuqnece where Iterator.Element: Comparable {

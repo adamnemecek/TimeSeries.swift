@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public struct TimeSeriesIndex<Event: Temporal>: Comparable, DefaultConstructible, Temporal, ExpressibleByIntegerLiteral {
 
   public typealias Timestamp = Event.Timestamp
@@ -185,6 +184,8 @@ fileprivate extension TimeSeries {
     return Index(timestamp: event.timestamp, offset: index - until, index: index)
   }
 }
+
+extension TimeSeries: SortedCollection { }
 
 
 

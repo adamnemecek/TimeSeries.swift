@@ -13,6 +13,8 @@
 		37F8888C1DD2AAF400989091 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F8888B1DD2AAF400989091 /* Protocols.swift */; };
 		37F8888F1DD2C3B100989091 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 37F8888E1DD2C3B100989091 /* README.md */; };
 		37F888941DD3811700989091 /* Scratchpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F888931DD3811700989091 /* Scratchpad.swift */; };
+		37F888961DD38B2C00989091 /* Index2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F888951DD38B2C00989091 /* Index2.swift */; };
+		37F888981DD398DB00989091 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F888971DD398DB00989091 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,6 +38,8 @@
 		37F8888D1DD2C3A000989091 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		37F8888E1DD2C3B100989091 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		37F888931DD3811700989091 /* Scratchpad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scratchpad.swift; sourceTree = "<group>"; };
+		37F888951DD38B2C00989091 /* Index2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Index2.swift; sourceTree = "<group>"; };
+		37F888971DD398DB00989091 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,8 +75,10 @@
 			isa = PBXGroup;
 			children = (
 				37F888801DD2AAA200989091 /* main.swift */,
+				37F888951DD38B2C00989091 /* Index2.swift */,
 				37F888891DD2AAD900989091 /* SortedArray.swift */,
 				37F8888B1DD2AAF400989091 /* Protocols.swift */,
+				37F888971DD398DB00989091 /* Extensions.swift */,
 				37F888871DD2AAC200989091 /* TimeSeries.swift */,
 				37F888931DD3811700989091 /* Scratchpad.swift */,
 			);
@@ -140,9 +146,11 @@
 				37F888941DD3811700989091 /* Scratchpad.swift in Sources */,
 				37F888811DD2AAA200989091 /* main.swift in Sources */,
 				37F8888A1DD2AAD900989091 /* SortedArray.swift in Sources */,
+				37F888981DD398DB00989091 /* Extensions.swift in Sources */,
 				37F8888F1DD2C3B100989091 /* README.md in Sources */,
 				37F888881DD2AAC200989091 /* TimeSeries.swift in Sources */,
 				37F8888C1DD2AAF400989091 /* Protocols.swift in Sources */,
+				37F888961DD38B2C00989091 /* Index2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
