@@ -20,9 +20,7 @@ public struct SortedArray<Element: Comparable> : MutableCollection, ExpressibleB
   }
 
   public init<S: Sequence>(_ seq: S) where S.Iterator.Element == Element {
-    dump(seq)
-    content = Array(seq).sorted()
-    dump(content)
+    content = seq.sorted()
   }
 
   public init(arrayLiteral elements: Element...) {

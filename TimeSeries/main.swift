@@ -37,18 +37,20 @@ func ==(lhs: Note, rhs: Note) -> Bool {
 }
 
 func <(lhs: Note, rhs: Note) -> Bool {
-  return lhs.timestamp < rhs.timestamp &&
-        lhs.pitch < rhs.pitch &&
-        lhs.duration < rhs.duration
+  return lhs.timestamp < rhs.timestamp ||
+         (lhs.timestamp == rhs.timestamp && lhs.pitch < rhs.pitch)
 
 }
 
 let q = (0...4).map { _ in Note() }
 let z = q + q[1...3]
-//let b = SortedArray<Note>(z)
+let n = (0...10).map { _ in Int.random(100) }
+let b = SortedArray<Note>(q)
 
-dump(z.sorted())
-print(z.sorted() == z)
+//dump(z.sorted())
+//print(z.sorted() == z)
+//dump(n.sorted())
+print(b)
 
 
 
