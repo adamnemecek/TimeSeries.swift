@@ -18,8 +18,8 @@ public protocol Infinite: DefaultConstructible, Comparable {
 }
 
 public protocol Temporal: Comparable {
-  associatedtype Time: Infinite, Strideable, ExpressibleByIntegerLiteral, Comparable
-  var timestamp: Time { get }
+  associatedtype Timestamp: Infinite, Strideable, ExpressibleByIntegerLiteral, Comparable
+  var timestamp: Timestamp { get }
 }
 
 //extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Element == Iterator.Element {

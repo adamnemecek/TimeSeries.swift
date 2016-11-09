@@ -104,23 +104,23 @@ extension SortedArray: BidirectionalCollection {
 
 
 extension SortedArray where Element: Temporal  {
-  func indices(of domain: Range<Element.Time>) -> Range<Int> {
+  func indices(of domain: Range<Element.Timestamp>) -> Range<Int> {
     fatalError()
   }
 
-  func count(at timestamp: Element.Time) -> Int {
+  func count(at timestamp: Element.Timestamp) -> Int {
 //    fatalError()
     //return reduce(0) { $0 + Int($1.timestamp == timestamp) }
     return count (where: { $0.timestamp == timestamp } )
   }
 
-  func count(until timestamp: Element.Time) -> Int {
+  func count(until timestamp: Element.Timestamp) -> Int {
 //    fatalError()
 //    return reduce(0) { $0 + Int($1.timestamp < timestamp) }
     return count(where: { $0.timestamp < timestamp } )
   }
 
-  func count(from timestamp: Element.Time) -> Int {
+  func count(from timestamp: Element.Timestamp) -> Int {
 //    return reduce(0) { $0 + Int(timestamp < $1.timestamp) }
     fatalError()
   }

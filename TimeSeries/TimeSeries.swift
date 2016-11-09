@@ -11,7 +11,7 @@ import Foundation
 
 public struct TimeSeriesIndex<Event: Temporal>: Comparable, DefaultConstructible, Temporal, ExpressibleByIntegerLiteral {
 
-  public typealias Timestamp = Event.Time
+  public typealias Timestamp = Event.Timestamp
   public let timestamp: Timestamp
   //
   // this is the offset from (timestamp, 0)
@@ -60,7 +60,7 @@ public func <<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
 
 public struct TimeSeries<Event: Temporal>: MutableCollection {
 
-  public typealias Timestamp = Event.Time
+  public typealias Timestamp = Event.Timestamp
   public typealias Index = TimeSeriesIndex<Event>
   public typealias SubSequence = ArraySlice<Event>
 
@@ -69,7 +69,6 @@ public struct TimeSeries<Event: Temporal>: MutableCollection {
   public init() {
     content = []
   }
-
 
   public var startIndex: Index {
     return Index(timestamp: domain.lowerBound, offset: 0, index: 0)
@@ -98,7 +97,9 @@ public struct TimeSeries<Event: Temporal>: MutableCollection {
 
   public subscript(bounds: Range<TimeSeriesIndex<Event>>) -> SubSequence {
     get {
-      return content[linrange(bounds: bounds)]
+      let ind = linrange(bounds: bounds)
+      dump(ind)
+      return content[ind]
     }
     set {
       fatalError()
@@ -127,6 +128,10 @@ extension TimeSeries: RangeReplaceableCollection {
   }
 }
 
+func tee<T>(_ t: T) -> T {
+  print(t)
+  return t
+}
 
 fileprivate extension TimeSeries {
   //
@@ -136,16 +141,16 @@ fileprivate extension TimeSeries {
   fileprivate var domain: ClosedRange<Timestamp> {
     let q = first.map { $0.timestamp...Timestamp.max }
 
-    return q ?? Timestamp()...Timestamp()
+    return tee(q ?? Timestamp()...Timestamp())
 
   }
 
   fileprivate func lindex(timestamp: Timestamp, offset: Int) -> Int {
-    return content.count(until: timestamp) + offset
+    return tee(content.count(until: timestamp) + offset)
   }
 
   fileprivate func lindex(index: Index) -> Int {
-    return index.index ?? lindex(timestamp: index.timestamp, offset: index.offset)
+    return tee(index.index ?? lindex(timestamp: index.timestamp, offset: index.offset))
   }
 
   fileprivate func linrange(bounds: Range<Index>) -> Range<Int> {
