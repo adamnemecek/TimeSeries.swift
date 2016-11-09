@@ -46,82 +46,35 @@ public struct TimeSeriesIndex<Event: Temporal>: Comparable, DefaultConstructible
   }
 }
 
-
 public func ==<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
   return lhs.timestamp == rhs.timestamp && lhs.index == rhs.index
 }
 
 public func <<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
+  fatalError()
   return (lhs.timestamp < rhs.timestamp && lhs.offset < rhs.offset) //||
 //         (lhs.timestamp != T.Time.max && rhs.timestamp == T.Time.max)
 }
 
 
 
-public struct TimeSeries<Event: Temporal & Comparable>: RangeReplaceableCollection, MutableCollection {
+public struct TimeSeries<Event: Temporal & Comparable>: MutableCollection {
 
-
-  /// Accesses a contiguous subrange of the collection's elements.
-  ///
-  /// The accessed slice uses the same indices for the same elements as the
-  /// original collection. Always use the slice's `startIndex` property
-  /// instead of assuming that its indices start at a particular value.
-  ///
-  /// This example demonstrates getting a slice of an array of strings, finding
-  /// the index of one of the strings in the slice, and then using that index
-  /// in the original array.
-  ///
-  ///     let streets = ["Adams", "Bryant", "Channing", "Douglas", "Evarts"]
-  ///     let streetsSlice = streets[2 ..< streets.endIndex]
-  ///     print(streetsSlice)
-  ///     // Prints "["Channing", "Douglas", "Evarts"]"
-  ///
-  ///     let index = streetsSlice.index(of: "Evarts")    // 4
-  ///     streets[index!] = "Eustace"
-  ///     print(streets[index!])
-  ///     // Prints "Eustace"
-  ///
-  /// - Parameter bounds: A range of the collection's indices. The bounds of
-  ///   the range must be valid indices of the collection.
-
-
-  private var content: SortedArray<Event> = []
   public typealias Timestamp = Event.Time
   public typealias Index = TimeSeriesIndex<Event>
   public typealias SubSequence = ArraySlice<Event>
+
+  fileprivate var content: SortedArray<Event> = []
 
   public init() {
     content = []
   }
 
-  private var domain: Range<Event.Time> {
+  fileprivate var domain: Range<Timestamp> {
 //    return first.map { $0.timestamp...Timestamp.max } ?? Timestamp()..<Timestamp()
     fatalError()
   }
 
-  //
-  // calculate linear index
-  //
-  private func lindex(timestamp: Timestamp, offset: Int) -> Int {
-//    return content.count(until: index.timestamp) + offset
-    fatalError()
-  }
-
-  private func lindex(index: Index) -> Int {
-    return index.index ?? lindex(timestamp: index.timestamp, offset: index.offset)
-  }
-
-  private func linrange(bounds: Range<Index>) -> Range<Int> {
-    return lindex(index: bounds.lowerBound)..<lindex(index: bounds.upperBound)
-  }
-
-
-  private func index(for index: Int) -> Index {
-    let event = content[index]
-    let until = content.count(until: event.timestamp)
-
-    return Index(timestamp: event.timestamp, offset: index - until, index: index)
-  }
 
   public var startIndex: Index {
     return Index(timestamp: domain.lowerBound, offset: 0, index: 0)
@@ -161,10 +114,50 @@ public struct TimeSeries<Event: Temporal & Comparable>: RangeReplaceableCollecti
   public func makeIterator() -> AnyIterator<Event> {
     return AnyIterator(content.makeIterator())
   }
+}
+
+extension TimeSeries: BidirectionalCollection {
+  public func index(before index: Index) -> Index {
+    fatalError()
+//    let idx = lindex(index: index) + 1
+//    return idx < content.endIndex ? self.index(for: idx) : endIndex
+  }
+}
+
+extension TimeSeries: RangeReplaceableCollection {
 
   public mutating func replaceSubrange<C : Collection>(_ subrange: Range<Index>, with newElements: C) where C.Iterator.Element == Event {
     let r = linrange(bounds: subrange)
     content.replaceSubrange(r, with: newElements)
   }
-
 }
+
+
+fileprivate extension TimeSeries {
+  //
+  // calculate linear index
+  //
+  fileprivate func lindex(timestamp: Timestamp, offset: Int) -> Int {
+//    return content.count(until: index.timestamp) + offset
+    fatalError()
+  }
+
+  fileprivate func lindex(index: Index) -> Int {
+    return index.index ?? lindex(timestamp: index.timestamp, offset: index.offset)
+  }
+
+  fileprivate func linrange(bounds: Range<Index>) -> Range<Int> {
+    return lindex(index: bounds.lowerBound)..<lindex(index: bounds.upperBound)
+  }
+
+
+  fileprivate func index(for index: Int) -> Index {
+    let event = content[index]
+    let until = content.count(until: event.timestamp)
+
+    return Index(timestamp: event.timestamp, offset: index - until, index: index)
+  }
+}
+
+
+
