@@ -52,6 +52,9 @@ let b = SortedArray<Note>(q)
 //dump(n.sorted())
 print(b)
 
+let t = TimeSeries(b)
+print(t)
+
 
 
 

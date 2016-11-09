@@ -51,7 +51,7 @@ public func ==<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
 }
 
 public func <<T>(lhs: TimeSeriesIndex<T>, rhs: TimeSeriesIndex<T>) -> Bool {
-  fatalError()
+
   return (lhs.timestamp < rhs.timestamp && lhs.offset < rhs.offset) //||
 //         (lhs.timestamp != T.Time.max && rhs.timestamp == T.Time.max)
 }
@@ -70,9 +70,11 @@ public struct TimeSeries<Event: Temporal & Comparable>: MutableCollection {
     content = []
   }
 
-  fileprivate var domain: Range<Timestamp> {
-//    return first.map { $0.timestamp...Timestamp.max } ?? Timestamp()..<Timestamp()
-    fatalError()
+  fileprivate var domain: ClosedRange<Timestamp> {
+    let q = first.map { $0.timestamp...Timestamp.max }
+
+    return q ?? Timestamp()...Timestamp()
+
   }
 
 
