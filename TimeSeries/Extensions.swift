@@ -21,3 +21,15 @@ extension Sequence {
 	}
 }
 
+
+extension Strideable where Stride: ExpressibleByIntegerLiteral {
+	func forward() -> Self {
+		return advanced(by: 1)
+	}
+
+	func backward() -> Self {
+		return advanced(by: -1)
+	}
+}
+
+

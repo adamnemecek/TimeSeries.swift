@@ -12,13 +12,23 @@ public protocol DefaultConstructible {
   init()
 }
 
+extension Array: DefaultConstructible { }
+extension Dictionary: DefaultConstructible { }
+extension Set: DefaultConstructible { }
+extension Int: DefaultConstructible { }
+extension Double: DefaultConstructible { }
+extension Bool: DefaultConstructible { }
+
+
+//extension Int: ForwardIndex { }
+
 public protocol Infinite: DefaultConstructible, Comparable {
   static var min: Self { get }
   static var max: Self { get }
 }
 
 public protocol Temporal: Comparable {
-  associatedtype Timestamp: Infinite, Strideable, ExpressibleByIntegerLiteral, Comparable
+  associatedtype Timestamp: Infinite, Strideable, ExpressibleByIntegerLiteral
   var timestamp: Timestamp { get }
 }
 
@@ -26,11 +36,12 @@ protocol UniquelyHashable: Hashable {
   
 }
 
-//extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Element == Iterator.Element {
-//  func tuples() -> AnyIterator<(Iterator.Element, Iterator.Element)> {
-//    return AnyIterator(zip(self, dropFirst()).makeIterator())
-//  }
-//}
+extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Element == Iterator.Element {
+	func tuples() -> AnyIterator<(Iterator.Element, Iterator.Element)> {
+		return AnyIterator(zip(dropFirst(), dropLast()).makeIterator())
+	}
+}
+
 
 public extension Int {
   init(_ value: Bool) {
@@ -82,12 +93,32 @@ protocol SortedCollection: BidirectionalCollection {
 //  }
 //}
 
+extension Collection where Indices.Iterator.Element == Index {
+	func indices(where pred: @escaping (Iterator.Element) -> Bool) -> [Index] {
+		return indices.filter { pred(self[$0]) }
+	}
+
+//  func range(where pred: @escaping (Iterator.Element) -> Bool) -> Range<Index> {
+//    let i = indices
+//  }
+}
+
+
+
+
 extension SortedCollection where Iterator.Element: Temporal {
   typealias Timestamp = Iterator.Element.Timestamp
 
   func firstIndex(at timestamp: Timestamp) -> Index? {
     return index { $0.timestamp == timestamp }
   }
+
+//  func firstIndex(before timestamp: Timestamp) -> Index? {
+//    for i in indices {
+//      self[i]
+//    }
+//  }
+
 
   func lastIndex(at timestamp: Timestamp) -> Index? {
     for (i,e) in zip(indices, self).reversed() where e.timestamp == timestamp {
@@ -109,9 +140,9 @@ extension SortedCollection where Iterator.Element: Temporal {
 //    return indices(for: )
 //  }
 
-  func count(before timestamp: Timestamp) -> Int {
-    return filter { $0.timestamp < timestamp }.count
-  }
+//  func count(before timestamp: Timestamp) -> Int {
+//    return firstIndex(at: timestamp) - startIndex
+//  }
 
   func count(after timestamp: Timestamp) -> Int {
     return filter { $0.timestamp > timestamp }.count
