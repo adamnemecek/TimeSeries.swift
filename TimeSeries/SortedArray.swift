@@ -12,7 +12,7 @@ import Foundation
 //  associatedtype _Element: Comparable = Iterator.Element
 //}
 
-struct SortedArray<Element: Comparable> : MutableCollection, RangeReplaceableCollection, /* RandomAccessCollection,OrderedCollection,*/ ExpressibleByArrayLiteral,  BidirectionalCollection {
+struct SortedArray<Element: Comparable> : BidirectionalCollection,  /* MutableCollection, RangeReplaceableCollection,, RandomAccessCollection,OrderedCollection,*/ ExpressibleByArrayLiteral   {
   private var content: [Element]
 
   public init() {
@@ -67,7 +67,6 @@ struct SortedArray<Element: Comparable> : MutableCollection, RangeReplaceableCol
     content = content.sorted()
   }
 
-
   func index(of element: Element) -> Int? {
 //    fatalError("implement")
     return content.index(of: element)
@@ -86,13 +85,6 @@ struct SortedArray<Element: Comparable> : MutableCollection, RangeReplaceableCol
     return content.first
   }
 }
-
-//extension SortedArray where Element: Hashable {
-//  mutating func elementsEqual<S: Sequence>(_ other: S, by areEquivalent: (Element, Element) throws -> Bool) rethrows -> Bool where S.Iterator.Element == Element {
-//    fatalError()
-//  }
-//}
-
 
 
 
