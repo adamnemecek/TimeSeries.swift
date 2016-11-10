@@ -12,13 +12,6 @@ public protocol DefaultConstructible {
   init()
 }
 
-extension Array: DefaultConstructible { }
-extension Dictionary: DefaultConstructible { }
-extension Set: DefaultConstructible { }
-extension Int: DefaultConstructible { }
-extension Double: DefaultConstructible { }
-extension Bool: DefaultConstructible { }
-
 
 //extension Int: ForwardIndex { }
 
@@ -27,10 +20,12 @@ public protocol Infinite: DefaultConstructible, Comparable {
   static var max: Self { get }
 }
 
-public protocol Temporal: Comparable {
+
+public protocol Temporal: Comparable, Strideable {
   associatedtype Timestamp: Infinite, Strideable, ExpressibleByIntegerLiteral
   var timestamp: Timestamp { get }
 }
+
 
 protocol UniquelyHashable: Hashable {
   
@@ -76,6 +71,12 @@ extension Sequence {
 protocol SortedCollection: BidirectionalCollection {
   associatedtype _Element: Comparable = Iterator.Element
 }
+
+//extension SortedCollection {
+//  func index(of: Iterator.Element) -> Index? {
+//    fatalError()
+//  }
+//}
 
 //extension SortedCollection where Self: BidirectionalCollection {
 //  func lastIndex(at timestamp: Timestamp) -> Index? {
@@ -163,3 +164,15 @@ extension SortedCollection where Iterator.Element: Temporal {
 //    return true
 //  }
 //}
+
+extension Array: DefaultConstructible { }
+extension Dictionary: DefaultConstructible { }
+extension Set: DefaultConstructible { }
+
+extension Int: DefaultConstructible { }
+extension Double: DefaultConstructible { }
+extension Bool: DefaultConstructible { }
+
+
+
+

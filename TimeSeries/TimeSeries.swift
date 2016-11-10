@@ -109,11 +109,13 @@ public struct TimeSeries<Event: Temporal>: MutableCollection {
     }
   }
 
+
   public subscript(bounds: Range<Index>) -> SubSequence {
     get {
 //      let ind = linrange(bounds: bounds)
 //      dump(ind)
 //      return content[ind]
+
       let i = indices.filter { bounds.contains($0) }
       print("indices: \(i)")
       print("self.indices: \(self.indices)")
@@ -187,6 +189,7 @@ fileprivate extension TimeSeries {
 }
 
 extension TimeSeries: SortedCollection { }
+
 
 
 

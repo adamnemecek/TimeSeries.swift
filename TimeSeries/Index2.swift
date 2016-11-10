@@ -8,6 +8,8 @@
 
 import Foundation
 
+#if false
+
 enum Index2<E: Temporal>: Comparable, ExpressibleByIntegerLiteral {
   case linear(index: Int), complex(timestamp: E.Timestamp, offset: Int)
 
@@ -64,11 +66,20 @@ extension TimeSeries {
     return .linear(index: content.endIndex)
   }
 
-  private func linearize(index: Index2<Event>) -> Int? {
+  //todo private
+  func complexify(index: Int) -> Index2<Event> {
+    return .complex(timestamp: Timestamp(), offset: index)
+  }
+
+  //todo private
+  func linearize(index: Index2<Event>) -> Int? {
     switch index {
       case .linear(let i):
         return i
       case .complex(let timestamp, let offset):
+        //
+        // todo binary search
+        //
         guard let idx = (content.index { $0.timestamp == timestamp }) else { return nil }
 //        return .linear(index: idx + offset)
         return idx + offset
@@ -84,6 +95,29 @@ extension TimeSeries {
   }
 
 }
+extension TimeSeries {
+  public subscript(bounds: Range<Index>) -> SubSequence {
+    get {
+//      let ind = linrange(bounds: bounds)
+//      dump(ind)
+//      return content[ind]
+      let id = self.linearize(index: bounds.lowerBounds)
+
+      let i = indices.filter { bounds.contains($0) }
+      print("indices: \(i)")
+      print("self.indices: \(self.indices)")
+      return i.extrema.map { self.content[$0.first.index!..<$0.last.index!] } ?? []
+
+//      return i.extrema.map { self.content[Range(uncheckedBounds: $0)] } ?? []
+//      fatalError()
+
+    }
+    set {
+      fatalError()
+//      replaceSubrange(linrange(bounds: bounds), with: newValue)
+    }
+}
+#endif
 
 //extension TimeSeries {
 //  typealias Ind = Index2<Event>
