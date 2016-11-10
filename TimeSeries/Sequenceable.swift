@@ -38,10 +38,12 @@ protocol Sequenceable: BidirectionalCollection {
 
   func range(at timestamp: Timestamp) -> Range<Index>?
 
+  func range(within timerange: Range<Timestamp>) -> Range<Index>?
+
   func timestamp(after timestamp: Timestamp) -> Timestamp
 
-  subscript (timestamp: Timestamp) -> SubSequence? { get }
-  subscript (timerange: Range<Timestamp>) -> SubSequence? { get }
+//  subscript (timestamp: Timestamp) -> SubSequence? { get }
+//  subscript (timerange: Range<Timestamp>) -> SubSequence? { get }
 }
 
 
@@ -98,10 +100,12 @@ extension Sequenceable
   }
 
   func range(within range: Range<Timestamp>) -> Range<Index>? {
-//    return self.range(before: range.lowerBound).flatMap { ind in
-//      self.range(before: range.upperBound).map { self[ind..<$0] }
+//    return self.index(of: range.lowerBound, insertion: true).flatMap { index in
+//      let next = self.index(after: index)
+//      return self.range(before: range.upperBound).map { self[..<$0] }
 //    }
     fatalError()
+
   }
 
   //

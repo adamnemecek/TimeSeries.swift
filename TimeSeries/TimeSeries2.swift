@@ -52,8 +52,23 @@ import Foundation
 //
 //}
 
+extension Sequence {
+  func countAll(pred: @escaping (Iterator.Element) -> Bool) -> Int {
+    return reduce(0) { $0 + Int(pred($1)) }
+  }
+
+  func countWhile(pred: @escaping (Iterator.Element) -> Bool) -> Int {
+    var g = makeIterator()
+    var count = 0
+    while let n = g.next(), pred(n) {
+      count += 1
+    }
+    return count
+  }
+}
+
 extension SortedArray where Element: Temporal {
-  func index(of timestamp: Element.Timestamp, insertion: Bool) -> Index? {
+  func index(of timestamp: Element.Timestamp, insertion: Bool = false) -> Index? {
     //
     // todo: optimize
     //
@@ -61,9 +76,27 @@ extension SortedArray where Element: Temporal {
     return insertion ?
             index { timestamp < $0.timestamp } :
             index { timestamp == $0.timestamp }
-
-
   }
+
+  func concurrent(before index: Int) -> Int {
+    let timestamp = self[index].timestamp
+
+    return self[startIndex..<index].reversed().countWhile {
+      $0.timestamp == timestamp
+    }
+  }
+  //
+  // how many concurrent events come after index
+  //
+
+  func concurrent(after index: Int) -> Int {
+    let timestamp = self[index].timestamp
+
+    return self[(index + 1)..<endIndex].countWhile {
+      $0.timestamp == timestamp
+    }
+  }
+
 
 
 }
@@ -125,27 +158,17 @@ extension TimeSeries: BidirectionalCollection {
 
 extension TimeSeries: RangeReplaceableCollection {
   public mutating func replaceSubrange<C : Collection>(_ subrange: Range<Index>, with newElements: C) where C.Iterator.Element == Event {
-
     content.replaceSubrange(subrange, with: newElements)
   }
 }
 
 extension TimeSeries: Sequenceable {
 
-  func index(of timestamp: Timestamp, insertion: Bool) -> Index? {
-    return insertion ?
-            index { $0.timestamp == timestamp } :
-            index { $0.timestamp < timestamp }
-
+  public func index(of timestamp: Timestamp, insertion: Bool = false) -> Index? {
+    return content.index(of: timestamp, insertion: insertion)
   }
 
-  subscript (timestamp: Timestamp) -> SubSequence? {
-    return _subscript(timestamp: timestamp)
-  }
 
-  subscript (timerange: Range<Timestamp>) -> SubSequence? {
-    return _subscript(timerange: timerange)
-  }
 
 }
 

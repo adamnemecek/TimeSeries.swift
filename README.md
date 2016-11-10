@@ -13,7 +13,7 @@ In order to conform to the protocol, you have to implement the
 method. Semantically, this method should perform O(n log(n)) search in the collection 
     
     insertion ?
-      index { timestamp <= $0.timestamp } :
+      index { timestamp < $0.timestamp } :
       index { timestamp == $0.timestamp }
 
 
