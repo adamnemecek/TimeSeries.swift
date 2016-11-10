@@ -105,53 +105,53 @@ protocol SortedCollection: BidirectionalCollection {
 
 
 
-extension SortedCollection where Iterator.Element: Temporal {
-  typealias Timestamp = Iterator.Element.Timestamp
-
-  func firstIndex(at timestamp: Timestamp) -> Index? {
-    return index { $0.timestamp == timestamp }
-  }
-
-//  func firstIndex(before timestamp: Timestamp) -> Index? {
-//    for i in indices {
-//      self[i]
+//extension SortedCollection where Iterator.Element: Temporal {
+//  typealias Timestamp = Iterator.Element.Timestamp
+//
+//  func firstIndex(at timestamp: Timestamp) -> Index? {
+//    return index { $0.timestamp == timestamp }
+//  }
+//
+////  func firstIndex(before timestamp: Timestamp) -> Index? {
+////    for i in indices {
+////      self[i]
+////    }
+////  }
+//
+//
+//  func lastIndex(at timestamp: Timestamp) -> Index? {
+//    for (i,e) in zip(indices, self).reversed() where e.timestamp == timestamp {
+//      return i as? Index
 //    }
+//    return nil
 //  }
-
-
-  func lastIndex(at timestamp: Timestamp) -> Index? {
-    for (i,e) in zip(indices, self).reversed() where e.timestamp == timestamp {
-      return i as? Index
-    }
-    return nil
-  }
-
-//  func indices(for range: Range<Timestamp>) -> Range<Index> {
-    //
-    // binsearch from the beginning and end
-
-    //
-//    let q = self.index(of: self[startIndex])
-
-//  }
-
-//  func count(at timestamp: Timestamp) -> Int {
-//    return indices(for: )
-//  }
-
-//  func count(before timestamp: Timestamp) -> Int {
-//    return firstIndex(at: timestamp) - startIndex
-//  }
-
-  func count(after timestamp: Timestamp) -> Int {
-    return filter { $0.timestamp > timestamp }.count
-  }
-
+//
+////  func indices(for range: Range<Timestamp>) -> Range<Index> {
+//    //
+//    // binsearch from the beginning and end
+//
+//    //
+////    let q = self.index(of: self[startIndex])
+//
+////  }
+//
+////  func count(at timestamp: Timestamp) -> Int {
+////    return indices(for: )
+////  }
+//
+////  func count(before timestamp: Timestamp) -> Int {
+////    return firstIndex(at: timestamp) - startIndex
+////  }
 //
 //  func count(after timestamp: Timestamp) -> Int {
 //    return filter { $0.timestamp > timestamp }.count
 //  }
-}
+//
+////
+////  func count(after timestamp: Timestamp) -> Int {
+////    return filter { $0.timestamp > timestamp }.count
+////  }
+//}
 
 
 //extension Seuqnece where Iterator.Element: Comparable {

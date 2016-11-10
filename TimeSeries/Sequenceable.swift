@@ -8,25 +8,6 @@
 
 import Foundation
 
-////
-//// this is a hack
-////
-//protocol Subscriptable {
-//  associatedtype Element
-//  associatedtype Index
-//  subscript (index: Index) -> Element { get }
-//}
-//
-//extension Subscriptable {
-//  func _subscript (index: Index) -> Element {
-//    return self[index]
-//  }
-//
-////  mutating
-////  func _subscript(index: Index, set to: Element) {
-////  }
-//}
-
 
 //
 // Orthogonal to collection,
@@ -34,10 +15,17 @@ import Foundation
 // can be concurrent events
 //
 
+
+
 protocol Sequenceable: BidirectionalCollection {
-  associatedtype Index: Comparable
+  associatedtype Index: Strideable
   associatedtype Element: Temporal = Iterator.Element
   associatedtype Timestamp: TimestampType = Element.Timestamp
+
+
+  //
+  // this is the only method you have to implement yourself
+  //
 
   func index(of timestamp: Timestamp, insertion: Bool) -> Index?
 
@@ -50,36 +38,50 @@ protocol Sequenceable: BidirectionalCollection {
 
   subscript (timestamp: Timestamp) -> SubSequence? { get }
   subscript (timerange: Range<Timestamp>) -> SubSequence? { get }
-
 }
 
 
 
-extension Sequenceable where Iterator.Element: Temporal, Iterator.Element.Timestamp == Timestamp, SubSequence.Index == Index {
+extension Sequenceable
+  where
+    //
+    // todo: are all these necessary?
+    //
+    Iterator.Element: Temporal,
+    Iterator.Element.Timestamp == Timestamp,
+    SubSequence.Index == Index,
+    SubSequence.Iterator.Element == Iterator.Element {
 
   var startTimestamp: Timestamp {
     return first?.timestamp ?? Timestamp()
   }
 
-
   var endTimestamp: Timestamp {
     return last?.timestamp ?? Timestamp()
   }
 
+  func timestamp(after timestamp: Timestamp) -> Timestamp {
+//    return range(before: timestamp)
+    fatalError()
+  }
+
+  //
+  // index range of all events that happen at timestamp: Timestamp
+  //
+
   func range(at timestamp: Timestamp) -> Range<Index>? {
     return index(of: timestamp, insertion: false).flatMap { start in
       let subrange = self[start..<endIndex]
-      fatalError("the serarch below should compare the timestamps")
-      let end = subrange.index { _ in true }
+
+      let end = subrange.index { $0.timestamp == timestamp }
       return start..<(end ?? start)
     }
   }
 
   func range(before timestamp: Timestamp) -> Range<Index>? {
-//    return index(of: timestamp, insertion: true).flatMap { _ in 
-      fatalError()
-//    }
-//  }
+    return index(of: timestamp, insertion: true).map {
+      startIndex..<$0
+    }
   }
 
   //
