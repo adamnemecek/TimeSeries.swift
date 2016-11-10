@@ -114,41 +114,41 @@ extension TimeSeries: RangeReplaceableCollection {
   }
 }
 
-extension TimeSeries: MutableSequenceable {
-  var startTimestamp: Timestamp {
-    return first?.timestamp ?? Timestamp()
-  }
-
-  var endTimestamp: Timestamp {
-    return last?.timestamp ?? Timestamp()
-  }
-
-  subscript (timestamp: Timestamp) -> SubSequence {
-    get {
-
-    }
-    set {
-    }
-  }
-
-  subscript (timerange: Range<Timestamp>) -> SubSequence {
-    get {
-      fatalError()
-    }
-    set {
-
-    }
-  }
-
-  public func index(of timestamp: Event.Timestamp) -> Index? {
-    return index { $0.timestamp == timestamp }
-  }
-
-  func timestamp(after timestamp: Event.Timestamp) -> Timestamp {
-    fatalError()
-  }
-}
-
+//extension TimeSeries: MutableSequenceable {
+//  var startTimestamp: Timestamp {
+//    return first?.timestamp ?? Timestamp()
+//  }
+//
+//  var endTimestamp: Timestamp {
+//    return last?.timestamp ?? Timestamp()
+//  }
+//
+//  subscript (timestamp: Timestamp) -> SubSequence {
+//    get {
+//
+//    }
+//    set {
+//    }
+//  }
+//
+//  subscript (timerange: Range<Timestamp>) -> SubSequence {
+//    get {
+//      fatalError()
+//    }
+//    set {
+//
+//    }
+//  }
+//
+//  public func index(of timestamp: Event.Timestamp) -> Index? {
+//    return index { $0.timestamp == timestamp }
+//  }
+//
+//  func timestamp(after timestamp: Event.Timestamp) -> Timestamp {
+//    fatalError()
+//  }
+//}
+//
 
 
 

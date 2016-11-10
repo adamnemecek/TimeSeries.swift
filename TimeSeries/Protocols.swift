@@ -27,6 +27,21 @@ public protocol Temporal: Comparable, Strideable {
   var timestamp: Timestamp { get }
 }
 
+protocol RangeType {
+  associatedtype Bound: Comparable
+  var lowerBound: Bound { get }
+  var upperBound: Bound { get }
+  init(uncheckedBounds bounds: (lower: Bound, upper: Bound))
+}
+
+extension Range: RangeType { }
+
+extension RangeType {
+  func intersect(_ other: Self) -> Self {
+    fatalError()
+  }
+}
+
 
 protocol UniquelyHashable: Hashable {
   

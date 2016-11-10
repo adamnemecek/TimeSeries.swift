@@ -8,7 +8,7 @@ extension Int {
 }
 
 
-extension Int: Infinite {}
+extension Int: TimestampType {}
 
 struct Note: Temporal, CustomStringConvertible {
   let timestamp: Int //= Int.random(10000)

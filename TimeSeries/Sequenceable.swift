@@ -22,12 +22,14 @@ protocol Sequenceable: BidirectionalCollection {
   var startTimestamp: Timestamp { get }
   var endTimestamp: Timestamp { get }
 
+  func range(at timestamp: Timestamp) -> Range<Index>?
+
   func timestamp(after timestamp: Timestamp) -> Timestamp
 
   func index(of timestamp: Timestamp) -> Index?
 
-  subscript (timestamp: Timestamp) -> SubSequence { get }
-  subscript (timerange: Range<Timestamp>) -> SubSequence { get }
+  subscript (timestamp: Timestamp) -> SubSequence? { get }
+  subscript (timerange: Range<Timestamp>) -> SubSequence? { get }
 
 }
 
@@ -43,6 +45,14 @@ extension Sequenceable where Iterator.Element: Temporal, Iterator.Element.Timest
   }
 
 
+  subscript (timestamp: Timestamp) -> SubSequence? {
+    return range(at: timestamp).map { self[$0] }
+  }
+
+//  subscript (timerange: Range<Timestamp>) -> SubSequence? {
+//    timerange.
+//    return range(at: timerange)
+//  }
 }
 
 protocol MutableSequenceable: Sequenceable {
