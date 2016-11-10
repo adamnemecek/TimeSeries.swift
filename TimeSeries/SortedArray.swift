@@ -13,7 +13,7 @@ public struct SortedArray<Element: Comparable> : MutableCollection, ExpressibleB
   public typealias SubSequence = ArraySlice<Element>
   public typealias Index = Int
 
-  fileprivate var content: [Element]
+  internal var content: [Element]
 
   public init() {
     content = []

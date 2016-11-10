@@ -38,5 +38,22 @@ extension Collection where SubSequence: Collection, SubSequence.Iterator.Element
 		guard let end = (self[start..<endIndex].index { !pred($0) }) else { return nil }
 		return start..<end
 	}
+
+
 }
+
+extension Collection {
+  func split(at index: Index) -> (SubSequence, Iterator.Element, SubSequence) {
+    return (self[startIndex..<index], self[index], self[self.index(after:index)..<endIndex] )
+  }
+}
+
+
+
+
+
+
+
+
+
 

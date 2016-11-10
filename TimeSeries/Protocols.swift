@@ -94,15 +94,15 @@ protocol SortedCollection: BidirectionalCollection {
 //  }
 //}
 
-extension Collection where Indices.Iterator.Element == Index {
-	func indices(where pred: @escaping (Iterator.Element) -> Bool) -> [Index] {
-		return indices.filter { pred(self[$0]) }
-	}
-
-//  func range(where pred: @escaping (Iterator.Element) -> Bool) -> Range<Index> {
-//    let i = indices
-//  }
-}
+//extension Collection where Indices.Iterator.Element == Index {
+//	func indices(where pred: @escaping (Iterator.Element) -> Bool) -> [Index] {
+//		return indices.filter { pred(self[$0]) }
+//	}
+//
+////  func range(where pred: @escaping (Iterator.Element) -> Bool) -> Range<Index> {
+////    let i = indices
+////  }
+//}
 
 
 

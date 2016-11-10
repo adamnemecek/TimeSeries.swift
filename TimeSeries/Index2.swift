@@ -8,7 +8,6 @@
 
 import Foundation
 
-#if false
 
 enum Index2<E: Temporal>: Comparable, ExpressibleByIntegerLiteral {
   case linear(index: Int), complex(timestamp: E.Timestamp, offset: Int)
@@ -117,7 +116,7 @@ extension TimeSeries {
 //      replaceSubrange(linrange(bounds: bounds), with: newValue)
     }
 }
-#endif
+
 
 //extension TimeSeries {
 //  typealias Ind = Index2<Event>

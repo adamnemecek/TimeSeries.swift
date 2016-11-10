@@ -29,6 +29,35 @@ extension SortedArray where Element : Temporal {
     return filter { $0.timestamp > timestamp }.count
   }
 
+  var startTimestamp: Timestamp? {
+    return first?.timestamp
+  }
+
+  var endTimestamp: Timestamp? {
+    return last?.timestamp
+  }
+
+  subscript (timerange: Range<Timestamp>) -> SubSequence {
+    get {
+      fatalError()
+    }
+    set {
+      fatalError()
+    }
+  }
+
+  func replaceTimerange<C : Collection>(_ subrange: Range<Timestamp>, with newElements: C) where C.Iterator.Element == Element {
+    fatalError()
+  }
+
 }
 
+
+
 typealias Timeseries<Event: Temporal> = SortedArray<Event>
+
+func main1() {
+  let q = (0...4).map { Note(timestamp: $0 * 10, duration : $0 * 10, pitch : $0 * 10) }
+  let b = SortedArray(q)
+
+}
