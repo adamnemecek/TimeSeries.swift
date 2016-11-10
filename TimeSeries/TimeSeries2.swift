@@ -54,10 +54,13 @@ import Foundation
 
 extension SortedArray where Element: Temporal {
   func index(of timestamp: Element.Timestamp, insertion: Bool) -> Index? {
+    //
+    // todo: optimize
+    //
 
     return insertion ?
-            index { $0.timestamp >= timestamp } :
-            index { $0.timestamp == timestamp }
+            index { timestamp <= $0.timestamp } :
+            index { timestamp == $0.timestamp }
 
 
   }

@@ -65,8 +65,12 @@ extension Sequenceable
   }
 
   func timestamp(after timestamp: Timestamp) -> Timestamp {
-//    return range(before: timestamp)
-    fatalError()
+    //
+    // todo what about fractional timestamps? we could return the wrong index
+    //
+    return index(of: timestamp.forward(), insertion: true).map {
+      self[$0].timestamp
+    } ?? Timestamp()
   }
 
 
@@ -77,9 +81,15 @@ extension Sequenceable
 
   func range(at timestamp: Timestamp) -> Range<Index>? {
     return index(of: timestamp, insertion: false).flatMap { start in
+      //
+      // starting on the first index where timestamp == $0.timestamp,
+      // find the end index of the concurrent subsequence
+      //
+
       let subrange = self[start..<endIndex]
 
-      let end = subrange.index { $0.timestamp == timestamp }
+
+      let end = subrange.index { timestamp != $0.timestamp }
       return start..<(end ?? start)
     }
   }
