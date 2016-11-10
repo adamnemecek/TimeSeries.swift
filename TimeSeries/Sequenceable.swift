@@ -65,10 +65,7 @@ extension Sequenceable
   }
 
   func timestamp(after timestamp: Timestamp) -> Timestamp {
-    //
-    // todo what about fractional timestamps? we could return the wrong index
-    //
-    return index(of: timestamp.forward(), insertion: true).map {
+    return index(of: timestamp, insertion: true).map {
       self[$0].timestamp
     } ?? Timestamp()
   }

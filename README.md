@@ -12,8 +12,9 @@ In order to conform to the protocol, you have to implement the
 `func index(of timestamp: Timestamp, insertion: Bool) -> Index? `
 method. Semantically, this method should perform O(n log(n)) search in the collection 
     
-    insertion ? 
-        index { $0.timestamp >= timestamp } :
-        index { $0.timestamp == timestamp }
-      
+    insertion ?
+      index { timestamp <= $0.timestamp } :
+      index { timestamp == $0.timestamp }
+
+
 

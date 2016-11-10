@@ -59,11 +59,13 @@ extension SortedArray where Element: Temporal {
     //
 
     return insertion ?
-            index { timestamp <= $0.timestamp } :
+            index { timestamp < $0.timestamp } :
             index { timestamp == $0.timestamp }
 
 
   }
+
+
 }
 
 func main1() {
