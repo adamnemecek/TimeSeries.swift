@@ -16,11 +16,25 @@ extension Sequence {
 		return nil
 	}
 
-	func last(where pred: (Iterator.Element) -> Bool) -> Iterator.Element? {
-		return reversed().first(where: pred)
-	}
+//	func last(where pred: (Iterator.Element) -> Bool) -> Iterator.Element? {
+//		return reversed().first(where: pred)
+//	}
 }
 
+extension Sequence {
+  func countAll(pred: @escaping (Iterator.Element) -> Bool) -> Int {
+    return reduce(0) { $0 + Int(pred($1)) }
+  }
+
+  func countWhile(pred: @escaping (Iterator.Element) -> Bool) -> Int {
+    var g = makeIterator()
+    var count = 0
+    while let n = g.next(), pred(n) {
+      count += 1
+    }
+    return count
+  }
+}
 
 extension Strideable where Stride: ExpressibleByIntegerLiteral {
 	func forward() -> Self {
@@ -38,7 +52,6 @@ extension Collection where SubSequence: Collection, SubSequence.Iterator.Element
 		guard let end = (self[start..<endIndex].index { !pred($0) }) else { return nil }
 		return start..<end
 	}
-
 
 }
 
@@ -66,6 +79,7 @@ extension Range {
 		self.init(bound..<bound)
 	}
 }
+
 
 
 

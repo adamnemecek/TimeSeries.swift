@@ -9,61 +9,25 @@
 import Foundation
 
 
+extension SortedCollection where Iterator.Element: Temporal {
+  func concurrent(before index: Index) -> IndexDistance {
 
-//extension SortedArray where Element : Temporal {
-//  //
-//  // todo optimiize
-//  //
-//  typealias Timestamp = Element.Timestamp
-//
-//  public func concurrent(at timestamp: Timestamp) -> Int {
-//    return filter { $0.timestamp == timestamp }.count
-//  }
-//
-//  public func before(timestamp: Timestamp) -> Int {
-//    return filter { $0.timestamp < timestamp }.count
-//  }
-//
-//
-//  public func after(timestamp: Timestamp) -> Int {
-//    return filter { $0.timestamp > timestamp }.count
-//  }
-//
-//  var startTimestamp: Timestamp {
-//    return first?.timestamp ?? Timestamp()
-//  }
-//
-//  var endTimestamp: Timestamp {
-//    return last?.timestamp ?? Timestamp()
-//  }
-//
-//  subscript (timerange: Range<Timestamp>) -> SubSequence {
-//    get {
-//      fatalError()
-//    }
-//    set {
-//      fatalError()
-//    }
-//  }
-//
-//  func replaceTimerange<C : Collection>(_ subrange: Range<Timestamp>, with newElements: C) where C.Iterator.Element == Element {
-//    fatalError()
-//  }
-//
-//}
+    let timestamp = self[index].timestamp
 
-extension Sequence {
-  func countAll(pred: @escaping (Iterator.Element) -> Bool) -> Int {
-    return reduce(0) { $0 + Int(pred($1)) }
+//    return self[startIndex..<index].reversed().countWhile {
+//      $0.timestamp == timestamp
+//    }
+    fatalError()
   }
 
-  func countWhile(pred: @escaping (Iterator.Element) -> Bool) -> Int {
-    var g = makeIterator()
-    var count = 0
-    while let n = g.next(), pred(n) {
-      count += 1
-    }
-    return count
+  func concurrent(after index: Index) -> IndexDistance {
+
+//    let timestamp = self[index].timestamp
+
+//    return self[startIndex..<index].reversed().countWhile {
+//      $0.timestamp == timestamp
+//    }
+    fatalError()
   }
 }
 
@@ -78,13 +42,7 @@ extension SortedArray where Element: Temporal {
             index { timestamp == $0.timestamp }
   }
 
-  func concurrent(before index: Int) -> Int {
-    let timestamp = self[index].timestamp
 
-    return self[startIndex..<index].reversed().countWhile {
-      $0.timestamp == timestamp
-    }
-  }
   //
   // how many concurrent events come after index
   //
@@ -108,7 +66,8 @@ func main1() {
 }
 
 
-public struct TimeSeries<Event: Temporal>: MutableCollection {
+public struct TimeSeries<Event: Temporal>: MutableCollection, SortedCollection,
+  ExpressibleByArrayLiteral, DefaultConstructible {
   public typealias Timestamp = Event.Timestamp
   public typealias Index = Int
   public typealias SubSequence = ArraySlice<Event>
@@ -118,6 +77,15 @@ public struct TimeSeries<Event: Temporal>: MutableCollection {
   public init() {
     content = []
   }
+
+  public init<S: Sequence>(_ seq: S) where S.Iterator.Element == Event {
+    content = SortedArray(seq)
+  }
+
+  public init(arrayLiteral elements: Event...) {
+    content = SortedArray(elements)
+  }
+
 
   public var startIndex: Index {
     return content.startIndex
@@ -163,13 +131,9 @@ extension TimeSeries: RangeReplaceableCollection {
 }
 
 extension TimeSeries: Sequenceable {
-
   public func index(of timestamp: Timestamp, insertion: Bool = false) -> Index? {
     return content.index(of: timestamp, insertion: insertion)
   }
-
-
-
 }
 
 //extension TimeSeries: MutableSequenceable {
