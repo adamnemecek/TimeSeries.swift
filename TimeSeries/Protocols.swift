@@ -22,10 +22,7 @@ public protocol Infinite: DefaultConstructible, Comparable {
 
 public protocol TimestampType: Infinite, Strideable, ExpressibleByIntegerLiteral {}
 
-public protocol Temporal: Comparable, Strideable {
-  associatedtype Timestamp: TimestampType
-  var timestamp: Timestamp { get }
-}
+
 
 protocol RangeType {
   associatedtype Bound: Comparable
@@ -74,12 +71,6 @@ protocol SortedCollection: BidirectionalCollection {
 //extension SortedCollection {
 //  func index(of: Iterator.Element) -> Index? {
 //    fatalError()
-//  }
-//}
-
-//extension SortedCollection where Self: BidirectionalCollection {
-//  func lastIndex(at timestamp: Timestamp) -> Index? {
-//    return index { $0.timestamp == timestamp }
 //  }
 //}
 
