@@ -116,9 +116,20 @@ extension TimeSeries: RangeReplaceableCollection {
 
 extension TimeSeries: Sequenceable {
 
-  func index(of timestamp: Timestamp, insertion: Bool) -> Index? {return nil }
-  subscript (timestamp: Timestamp) -> SubSequence? { fatalError() }
-  subscript (timerange: Range<Timestamp>) -> SubSequence? { fatalError() }
+  func index(of timestamp: Timestamp, insertion: Bool) -> Index? {
+    return insertion ?
+            index { $0.timestamp == timestamp } :
+            index { $0.timestamp < timestamp }
+
+  }
+
+  subscript (timestamp: Timestamp) -> SubSequence? {
+    return _subscript(timestamp: timestamp)
+  }
+
+  subscript (timerange: Range<Timestamp>) -> SubSequence? {
+    return _subscript(timerange: timerange)
+  }
 
 }
 

@@ -25,6 +25,10 @@ protocol Sequenceable: BidirectionalCollection {
 
   //
   // this is the only method you have to implement yourself
+  // if insertion == true, requires that you return the first index
+  // where such element can be inserted i.e. in the subrange of the 
+  // concurrent elements, a new index would be inserted at the first 
+  // position
   //
 
   func index(of timestamp: Timestamp, insertion: Bool) -> Index?
@@ -79,9 +83,16 @@ extension Sequenceable
   }
 
   func range(before timestamp: Timestamp) -> Range<Index>? {
-    return index(of: timestamp, insertion: true).map {
+    return index(of: timestamp.forward(), insertion: true).map {
       startIndex..<$0
     }
+  }
+
+  func range(within range: Range<Timestamp>) -> Range<Index>? {
+//    return self.range(before: range.lowerBound).flatMap { ind in
+//      self.range(before: range.upperBound).map { self[ind..<$0] }
+//    }
+    fatalError()
   }
 
   //
@@ -92,8 +103,9 @@ extension Sequenceable
   }
 
   func _subscript(timerange: Range<Timestamp>) -> SubSequence? {
-    let f = range(before: timerange.lowerBound)
-    let l = range(before: timerange.upperBound)
+//    return range(before: timerange.lowerBound).flatMap { start in
+//      range(before: timerange.upperBound).map { self[start...<$0] }
+//    }
     fatalError()
   }
 
