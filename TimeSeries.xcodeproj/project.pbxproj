@@ -58,6 +58,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3780E2AA1DD4E1D4005867E2 /* Scratchpad */ = {
+			isa = PBXGroup;
+			children = (
+				37F888871DD2AAC200989091 /* TimeSeries.swift */,
+				3780E2A41DD4D252005867E2 /* main2.swift */,
+			);
+			name = Scratchpad;
+			sourceTree = "<group>";
+		};
 		37F888741DD2AAA200989091 = {
 			isa = PBXGroup;
 			children = (
@@ -79,9 +88,8 @@
 		37F8887F1DD2AAA200989091 /* TimeSeries */ = {
 			isa = PBXGroup;
 			children = (
-				37F888871DD2AAC200989091 /* TimeSeries.swift */,
+				3780E2AA1DD4E1D4005867E2 /* Scratchpad */,
 				37F888801DD2AAA200989091 /* main.swift */,
-				3780E2A41DD4D252005867E2 /* main2.swift */,
 				37F888951DD38B2C00989091 /* Index2.swift */,
 				37F888891DD2AAD900989091 /* SortedArray.swift */,
 				3780E2A81DD4E02A005867E2 /* Sequenceable.swift */,

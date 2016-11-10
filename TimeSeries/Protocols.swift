@@ -31,24 +31,6 @@ protocol UniquelyHashable: Hashable {
   
 }
 
-extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Element == Iterator.Element {
-	func tuples() -> AnyIterator<(Iterator.Element, Iterator.Element)> {
-		return AnyIterator(zip(dropFirst(), dropLast()).makeIterator())
-	}
-}
-
-
-public extension Int {
-  init(_ value: Bool) {
-    self = value ? 1 : 0
-  }
-}
-
-extension Range {
-	init(bound: Bound) {
-		self.init(bound..<bound)
-	}
-}
 
 
 
