@@ -33,9 +33,17 @@ func main1() {
 
 }
 
+//
+// unlike a sorted array, the keys are sparse
+// 
+//
 
-public struct TimeSeries<Event: Temporal>: MutableCollection, SortedCollection,
-  ExpressibleByArrayLiteral, DefaultConstructible, Equatable {
+public struct TimeSeries<Event: Temporal>: MutableCollection,
+                                           SortedCollection,
+                                           ExpressibleByArrayLiteral,
+                                           DefaultConstructible,
+                                           Equatable {
+
   public typealias Timestamp = Event.Timestamp
   public typealias Index = Int
   public typealias SubSequence = ArraySlice<Event>

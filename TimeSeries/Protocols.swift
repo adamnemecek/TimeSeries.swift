@@ -45,6 +45,9 @@ protocol UniquelyHashable: Hashable {
 }
 
 
+public protocol SequenceInitializable: Sequence {
+  init<S: Sequence>(_ seq: S) where S.Iterator.Element == Iterator.Element
+}
 
 
 //extension Sequence {

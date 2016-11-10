@@ -8,7 +8,13 @@
 
 import Foundation
 
-public struct SortedArray<Element: Comparable> : MutableCollection, ExpressibleByArrayLiteral, DefaultConstructible, SortedCollection, Equatable {
+public struct SortedArray<Element: Comparable>: MutableCollection,
+                                                ExpressibleByArrayLiteral,
+                                                DefaultConstructible,
+                                                SortedCollection,
+                                                Equatable,
+                                                SequenceInitializable {
+
 
   public typealias SubSequence = ArraySlice<Element>
   public typealias Index = Int
