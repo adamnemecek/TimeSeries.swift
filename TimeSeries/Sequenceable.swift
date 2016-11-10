@@ -69,6 +69,8 @@ extension Sequenceable
     fatalError()
   }
 
+
+
   //
   // index range of all events that happen at timestamp: Timestamp
   //
@@ -83,7 +85,7 @@ extension Sequenceable
   }
 
   func range(before timestamp: Timestamp) -> Range<Index>? {
-    return index(of: timestamp.forward(), insertion: true).map {
+    return index(of: timestamp, insertion: true).map {
       startIndex..<$0
     }
   }

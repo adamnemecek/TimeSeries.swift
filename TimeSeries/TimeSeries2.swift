@@ -52,6 +52,17 @@ import Foundation
 //
 //}
 
+extension SortedArray where Element: Temporal {
+  func index(of timestamp: Element.Timestamp, insertion: Bool) -> Index? {
+
+    return insertion ?
+            index { $0.timestamp >= timestamp } :
+            index { $0.timestamp == timestamp }
+
+
+  }
+}
+
 func main1() {
   let q = (0...4).map { Note(timestamp: $0 * 10, duration : $0 * 10, pitch : $0 * 10) }
   let b = SortedArray(q)
