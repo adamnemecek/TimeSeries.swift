@@ -119,17 +119,13 @@ extension TimeSeries: MutableSequenceable {
     return first?.timestamp ?? Timestamp()
   }
 
-  public func index(of timestamp: Event.Timestamp) -> Index? {
-    fatalError()
-  }
-
   var endTimestamp: Timestamp {
     return last?.timestamp ?? Timestamp()
   }
 
   subscript (timestamp: Timestamp) -> SubSequence {
     get {
-      fatalError()
+
     }
     set {
     }
@@ -142,6 +138,10 @@ extension TimeSeries: MutableSequenceable {
     set {
 
     }
+  }
+
+  public func index(of timestamp: Event.Timestamp) -> Index? {
+    return index { $0.timestamp == timestamp }
   }
 
   func timestamp(after timestamp: Event.Timestamp) -> Timestamp {

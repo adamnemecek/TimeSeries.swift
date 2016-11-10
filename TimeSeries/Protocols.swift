@@ -20,9 +20,10 @@ public protocol Infinite: DefaultConstructible, Comparable {
   static var max: Self { get }
 }
 
+public protocol TimestampType: Infinite, Strideable, ExpressibleByIntegerLiteral {}
 
 public protocol Temporal: Comparable, Strideable {
-  associatedtype Timestamp: Infinite, Strideable, ExpressibleByIntegerLiteral
+  associatedtype Timestamp: TimestampType
   var timestamp: Timestamp { get }
 }
 

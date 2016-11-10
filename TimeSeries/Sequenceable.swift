@@ -14,10 +14,10 @@ import Foundation
 // can be concurrent events
 //
 
-protocol Sequenceable: Sequence {
+protocol Sequenceable: BidirectionalCollection {
   associatedtype Index: Comparable
   associatedtype Element: Temporal = Iterator.Element
-  associatedtype Timestamp: Comparable = Element.Timestamp
+  associatedtype Timestamp: TimestampType = Element.Timestamp
 
   var startTimestamp: Timestamp { get }
   var endTimestamp: Timestamp { get }
@@ -29,7 +29,20 @@ protocol Sequenceable: Sequence {
   subscript (timestamp: Timestamp) -> SubSequence { get }
   subscript (timerange: Range<Timestamp>) -> SubSequence { get }
 
-  var isEmpty: Bool { get }
+}
+
+extension Sequenceable where Iterator.Element: Temporal, Iterator.Element.Timestamp == Timestamp {
+
+  var startTimestamp: Timestamp {
+    return first?.timestamp ?? Timestamp()
+  }
+
+
+  var endTimestamp: Timestamp {
+    return last?.timestamp ?? Timestamp()
+  }
+
+
 }
 
 protocol MutableSequenceable: Sequenceable {
@@ -37,7 +50,14 @@ protocol MutableSequenceable: Sequenceable {
   subscript (timerange: Range<Timestamp>) -> SubSequence { get set }
 }
 
+protocol BidirectionalSequenceable : Sequenceable {
+  func timestamp(before timestamp: Timestamp) -> Timestamp
+}
+
 protocol RangeReplaceableSequencable: Sequenceable {
 
 }
+
+
+
 
