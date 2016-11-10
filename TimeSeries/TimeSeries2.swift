@@ -10,47 +10,47 @@ import Foundation
 
 
 
-extension SortedArray where Element : Temporal {
-  //
-  // todo optimiize
-  //
-  typealias Timestamp = Element.Timestamp
-
-  public func concurrent(at timestamp: Timestamp) -> Int {
-    return filter { $0.timestamp == timestamp }.count
-  }
-
-  public func before(timestamp: Timestamp) -> Int {
-    return filter { $0.timestamp < timestamp }.count
-  }
-
-
-  public func after(timestamp: Timestamp) -> Int {
-    return filter { $0.timestamp > timestamp }.count
-  }
-
-  var startTimestamp: Timestamp? {
-    return first?.timestamp
-  }
-
-  var endTimestamp: Timestamp? {
-    return last?.timestamp
-  }
-
-  subscript (timerange: Range<Timestamp>) -> SubSequence {
-    get {
-      fatalError()
-    }
-    set {
-      fatalError()
-    }
-  }
-
-  func replaceTimerange<C : Collection>(_ subrange: Range<Timestamp>, with newElements: C) where C.Iterator.Element == Element {
-    fatalError()
-  }
-
-}
+//extension SortedArray where Element : Temporal {
+//  //
+//  // todo optimiize
+//  //
+//  typealias Timestamp = Element.Timestamp
+//
+//  public func concurrent(at timestamp: Timestamp) -> Int {
+//    return filter { $0.timestamp == timestamp }.count
+//  }
+//
+//  public func before(timestamp: Timestamp) -> Int {
+//    return filter { $0.timestamp < timestamp }.count
+//  }
+//
+//
+//  public func after(timestamp: Timestamp) -> Int {
+//    return filter { $0.timestamp > timestamp }.count
+//  }
+//
+//  var startTimestamp: Timestamp {
+//    return first?.timestamp ?? Timestamp()
+//  }
+//
+//  var endTimestamp: Timestamp {
+//    return last?.timestamp ?? Timestamp()
+//  }
+//
+//  subscript (timerange: Range<Timestamp>) -> SubSequence {
+//    get {
+//      fatalError()
+//    }
+//    set {
+//      fatalError()
+//    }
+//  }
+//
+//  func replaceTimerange<C : Collection>(_ subrange: Range<Timestamp>, with newElements: C) where C.Iterator.Element == Element {
+//    fatalError()
+//  }
+//
+//}
 
 func main1() {
   let q = (0...4).map { Note(timestamp: $0 * 10, duration : $0 * 10, pitch : $0 * 10) }
@@ -119,6 +119,10 @@ extension TimeSeries: MutableSequenceable {
     return first?.timestamp ?? Timestamp()
   }
 
+  public func index(of timestamp: Event.Timestamp) -> Index? {
+    fatalError()
+  }
+
   var endTimestamp: Timestamp {
     return last?.timestamp ?? Timestamp()
   }
@@ -140,7 +144,7 @@ extension TimeSeries: MutableSequenceable {
     }
   }
 
-  func timestamp(after timestamp: Event.Timestamp) -> Event.Timestamp {
+  func timestamp(after timestamp: Event.Timestamp) -> Timestamp {
     fatalError()
   }
 }
