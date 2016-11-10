@@ -8,6 +8,26 @@
 
 import Foundation
 
+////
+//// this is a hack
+////
+//protocol Subscriptable {
+//  associatedtype Element
+//  associatedtype Index
+//  subscript (index: Index) -> Element { get }
+//}
+//
+//extension Subscriptable {
+//  func _subscript (index: Index) -> Element {
+//    return self[index]
+//  }
+//
+////  mutating
+////  func _subscript(index: Index, set to: Element) {
+////  }
+//}
+
+
 //
 // Orthogonal to collection,
 // note that subscript returns a subsequence since there 
@@ -19,6 +39,8 @@ protocol Sequenceable: BidirectionalCollection {
   associatedtype Element: Temporal = Iterator.Element
   associatedtype Timestamp: TimestampType = Element.Timestamp
 
+  func index(of timestamp: Timestamp, insertion: Bool) -> Index?
+
   var startTimestamp: Timestamp { get }
   var endTimestamp: Timestamp { get }
 
@@ -26,14 +48,14 @@ protocol Sequenceable: BidirectionalCollection {
 
   func timestamp(after timestamp: Timestamp) -> Timestamp
 
-  func index(of timestamp: Timestamp) -> Index?
-
   subscript (timestamp: Timestamp) -> SubSequence? { get }
   subscript (timerange: Range<Timestamp>) -> SubSequence? { get }
 
 }
 
-extension Sequenceable where Iterator.Element: Temporal, Iterator.Element.Timestamp == Timestamp {
+
+
+extension Sequenceable where Iterator.Element: Temporal, Iterator.Element.Timestamp == Timestamp, SubSequence.Index == Index {
 
   var startTimestamp: Timestamp {
     return first?.timestamp ?? Timestamp()
@@ -44,14 +66,40 @@ extension Sequenceable where Iterator.Element: Temporal, Iterator.Element.Timest
     return last?.timestamp ?? Timestamp()
   }
 
+  func range(at timestamp: Timestamp) -> Range<Index>? {
+    return index(of: timestamp, insertion: false).flatMap { start in
+      let subrange = self[start..<endIndex]
+      fatalError("the serarch below should compare the timestamps")
+      let end = subrange.index { _ in true }
+      return start..<(end ?? start)
+    }
+  }
 
-  subscript (timestamp: Timestamp) -> SubSequence? {
+  func range(before timestamp: Timestamp) -> Range<Index>? {
+//    return index(of: timestamp, insertion: true).flatMap { _ in 
+      fatalError()
+//    }
+//  }
+  }
+
+  //
+  // this is a hack around the fact that we cannot define subscripts in extensions
+  //
+  func _subscript(timestamp: Timestamp) -> SubSequence? {
     return range(at: timestamp).map { self[$0] }
   }
 
+  func _subscript(timerange: Range<Timestamp>) -> SubSequence? {
+    let f = range(before: timerange.lowerBound)
+    let l = range(before: timerange.upperBound)
+    fatalError()
+  }
+
+
+
 //  subscript (timerange: Range<Timestamp>) -> SubSequence? {
-//    timerange.
-//    return range(at: timerange)
+//    let
+//
 //  }
 }
 
@@ -59,6 +107,7 @@ protocol MutableSequenceable: Sequenceable {
   subscript (timestamp: Timestamp) -> SubSequence { get set }
   subscript (timerange: Range<Timestamp>) -> SubSequence { get set }
 }
+
 
 protocol BidirectionalSequenceable : Sequenceable {
   func timestamp(before timestamp: Timestamp) -> Timestamp
