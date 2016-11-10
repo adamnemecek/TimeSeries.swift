@@ -85,7 +85,23 @@ extension Range {
 
 
 
+extension BidirectionalCollection {
+  //
+  // like index
+  //
+  func lastIndex(where predicate: (Iterator.Element) -> Bool) -> Index? {
+    var start = endIndex
 
+    while true {
+      let prev = index(before: start)
+      if predicate(self[prev]) {
+        return prev
+      }
+      start = prev
+    }
+    return nil
+  }
+}
 
 
 

@@ -13,7 +13,7 @@ extension BidirectionalCollection
   where
     Index: Strideable,
     Iterator.Element: Temporal,
-    SubSequence: Collection,
+    SubSequence: BidirectionalCollection,
     SubSequence.Iterator.Element == Iterator.Element,
     SubSequence.Index == Index {
 
@@ -35,10 +35,19 @@ extension BidirectionalCollection
   }
 
   func concurrent(before index: Index) -> Index.Stride {
-    let q =  self[startIndex..<endIndex]
-    let g = q.reversed()
+    let timestamp = self[index].timestamp
+    //
+    // get index of the following event
+    //
+    let lst = self.index(before: index)
 
-    fatalError()
+    //
+    // starting at the next index, find an event that isn't concurrent
+    //
+    let fst = self[startIndex..<lst].lastIndex {
+        $0.timestamp != timestamp
+    }
+    return lst.distance(to: fst ?? lst)
   }
 }
 
