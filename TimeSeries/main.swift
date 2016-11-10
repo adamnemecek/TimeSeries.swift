@@ -56,8 +56,8 @@ func <(lhs: Note, rhs: Note) -> Bool {
 
 func test() {
   let q = (0...4).map { Note(timestamp: $0 * 10, duration : $0 * 10, pitch : $0 * 10) }
-  let b = SortedArray(q)
-  print(b)
+  let b = SortedArray(q + [q[0], q[0]])
+  print(b.concurrent(after: 0))
 
 
 }

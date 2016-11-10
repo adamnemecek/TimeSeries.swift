@@ -8,6 +8,11 @@
 
 import Foundation
 
+//protocol TemporalCollection: SortedCollection {
+//  associatedtype __Element: Temporal = _Element
+//  associatedtype _Index: Strideable = Index
+//  associatedtype _SubSequence: Sequence = SubSequence
+//}
 
 extension BidirectionalCollection
   where
@@ -17,7 +22,7 @@ extension BidirectionalCollection
     SubSequence.Iterator.Element == Iterator.Element,
     SubSequence.Index == Index {
 
-  func concurrent(after index: Index) -> Index.Stride {
+  public func concurrent(after index: Index) -> Index.Stride {
 
     let timestamp = self[index].timestamp
     //
@@ -30,25 +35,24 @@ extension BidirectionalCollection
     //
     let lst = self[fst..<endIndex].index {
         $0.timestamp != timestamp
-    }
-    return fst.distance(to: lst ?? fst)
+    } ?? fst
+
+    return fst.distance(to: lst)
   }
 
-  func concurrent(before index: Index) -> Index.Stride {
+  public func concurrent(before index: Index) -> Index.Stride {
     let timestamp = self[index].timestamp
     //
-    // get index of the following event
+    // starting at the previous index, iterate backwrads until we find a non-concurrent event
     //
-    let lst = self.index(before: index)
-
-    //
-    // starting at the next index, find an event that isn't concurrent
-    //
-    let fst = self[startIndex..<lst].lastIndex {
+    let fst = self[startIndex..<index].lastIndex {
         $0.timestamp != timestamp
-    }
-    return lst.distance(to: fst ?? lst)
+    } ?? index
+
+    return index.distance(to: fst)
   }
+
+
 }
 
 extension SortedArray where Element: Temporal {
