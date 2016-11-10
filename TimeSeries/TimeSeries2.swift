@@ -8,7 +8,12 @@
 
 import Foundation
 
+
+
 extension SortedArray where Element : Temporal {
+  //
+  // todo optimiize
+  //
   typealias Timestamp = Element.Timestamp
 
   public func concurrent(at timestamp: Timestamp) -> Int {

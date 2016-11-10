@@ -60,6 +60,7 @@ public struct SortedArray<Element: Comparable> : MutableCollection, ExpressibleB
 
   public func index(of element: Element) -> Index? {
 //    fatalError("implement")
+    //todo binary search
     return content.index(of: element)
 //    return nil
   }

@@ -52,21 +52,21 @@ extension Range {
 
 
 
-extension Sequence {
-  func count(where predicate: (Iterator.Element) -> Bool) -> Int {
-    return reduce(0) { $0 + Int(predicate($1)) }
-  }
-
-  func count(while predicate: (Iterator.Element) -> Bool) -> Int {
-    var g = makeIterator()
-    var count = 0
-    while let c = g.next().map(predicate), c {
-      count += 1
-    }
-    return count
-  }
-
-}
+//extension Sequence {
+//  func count(where predicate: (Iterator.Element) -> Bool) -> Int {
+//    return reduce(0) { $0 + Int(predicate($1)) }
+//  }
+//
+//  func count(while predicate: (Iterator.Element) -> Bool) -> Int {
+//    var g = makeIterator()
+//    var count = 0
+//    while let c = g.next().map(predicate), c {
+//      count += 1
+//    }
+//    return count
+//  }
+//
+//}
 
 protocol SortedCollection: BidirectionalCollection {
   associatedtype _Element: Comparable = Iterator.Element

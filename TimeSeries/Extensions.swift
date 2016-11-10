@@ -32,4 +32,11 @@ extension Strideable where Stride: ExpressibleByIntegerLiteral {
 	}
 }
 
+extension Collection where SubSequence: Collection, SubSequence.Iterator.Element == Iterator.Element, SubSequence.Index == Index {
+	func range(where pred: (Iterator.Element) -> Bool) -> Range<Index>? {
+		guard let start = index(where: pred) else { return nil }
+		guard let end = (self[start..<endIndex].index { !pred($0) }) else { return nil }
+		return start..<end
+	}
+}
 
