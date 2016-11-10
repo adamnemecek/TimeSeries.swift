@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct SortedArray<Element: Comparable> : MutableCollection, ExpressibleByArrayLiteral, DefaultConstructible, SortedCollection {
+public struct SortedArray<Element: Comparable> : MutableCollection, ExpressibleByArrayLiteral, DefaultConstructible, SortedCollection, Equatable {
 
   public typealias SubSequence = ArraySlice<Element>
   public typealias Index = Int
@@ -99,5 +99,9 @@ extension SortedArray: BidirectionalCollection {
   public func index(before index: Index) -> Index {
     return index - 1
   }
+}
+
+public func ==<Element>(lhs: SortedArray<Element>, rhs: SortedArray<Element>) -> Bool {
+  return lhs.content == rhs.content
 }
 

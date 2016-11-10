@@ -35,7 +35,7 @@ func main1() {
 
 
 public struct TimeSeries<Event: Temporal>: MutableCollection, SortedCollection,
-  ExpressibleByArrayLiteral, DefaultConstructible {
+  ExpressibleByArrayLiteral, DefaultConstructible, Equatable {
   public typealias Timestamp = Event.Timestamp
   public typealias Index = Int
   public typealias SubSequence = ArraySlice<Event>
@@ -78,10 +78,11 @@ public struct TimeSeries<Event: Temporal>: MutableCollection, SortedCollection,
 
   public subscript(bounds: Range<Index>) -> SubSequence {
     get {
-      return content[bounds]
+//      return content[bounds]
+    fatalError()
     }
     set {
-      content[bounds] = newValue
+//      content[bounds] = newValue
     }
   }
 }
@@ -102,6 +103,10 @@ extension TimeSeries: Sequenceable {
   public func index(of timestamp: Timestamp, insertion: Bool = false) -> Index? {
     return content.index(of: timestamp, insertion: insertion)
   }
+}
+
+public func ==<Event>(lhs: TimeSeries<Event>, rhs: TimeSeries<Event>) -> Bool {
+  return lhs.content == rhs.content
 }
 
 //extension TimeSeries: MutableSequenceable {

@@ -35,12 +35,17 @@ protocol Sequenceable: BidirectionalCollection {
 
   var startTimestamp: Timestamp { get }
   var endTimestamp: Timestamp { get }
+  var lastTimestamp: Timestamp{ get }
 
   func range(at timestamp: Timestamp) -> Range<Index>?
 
   func range(within timerange: Range<Timestamp>) -> Range<Index>?
 
   func timestamp(after timestamp: Timestamp) -> Timestamp
+
+//  public func index(of timestamp: Timestamp, offset: IndexDistance?) -> Index? {
+//
+//  }
 
 //  subscript (timestamp: Timestamp) -> SubSequence? { get }
 //  subscript (timerange: Range<Timestamp>) -> SubSequence? { get }
@@ -62,8 +67,12 @@ extension Sequenceable
     return first?.timestamp ?? Timestamp()
   }
 
-  var endTimestamp: Timestamp {
+  var lastTimestamp: Timestamp {
     return last?.timestamp ?? Timestamp()
+  }
+
+  var endTimestamp: Timestamp {
+    return first.map { _ in Timestamp.max } ?? Timestamp()
   }
 
   func timestamp(after timestamp: Timestamp) -> Timestamp {

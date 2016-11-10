@@ -21,20 +21,20 @@ extension Sequence {
 //	}
 }
 
-extension Sequence {
-  func countAll(pred: @escaping (Iterator.Element) -> Bool) -> Int {
-    return reduce(0) { $0 + Int(pred($1)) }
-  }
-
-  func countWhile(pred: @escaping (Iterator.Element) -> Bool) -> Int {
-    var g = makeIterator()
-    var count = 0
-    while let n = g.next(), pred(n) {
-      count += 1
-    }
-    return count
-  }
-}
+//extension Sequence {
+//  func countAll(pred: @escaping (Iterator.Element) -> Bool) -> Int {
+//    return reduce(0) { $0 + Int(pred($1)) }
+//  }
+//
+//  func countWhile(pred: @escaping (Iterator.Element) -> Bool) -> Int {
+//    var g = makeIterator()
+//    var count = 0
+//    while let n = g.next(), pred(n) {
+//      count += 1
+//    }
+//    return count
+//  }
+//}
 
 extension Strideable where Stride: ExpressibleByIntegerLiteral {
 	func forward() -> Self {

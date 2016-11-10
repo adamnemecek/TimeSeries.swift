@@ -18,3 +18,8 @@ method. Semantically, this method should perform O(n log(n)) search in the colle
 
 
 
+
+```
+  let track = Track(path: "/Users/adamnemecek/darude.mid")
+  track[timerange: 30..<50] = track[timerange: 10..<40] 
+```

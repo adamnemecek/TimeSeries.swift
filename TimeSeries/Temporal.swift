@@ -22,6 +22,26 @@ extension BidirectionalCollection
     SubSequence.Iterator.Element == Iterator.Element,
     SubSequence.Index == Index {
 
+  //
+  // count the number of concurrent events preceding index
+  //
+
+  public func concurrent(before index: Index) -> Index.Stride {
+    let timestamp = self[index].timestamp
+    //
+    // starting at the previous index, iterate backwards until we find a non-concurrent event
+    //
+    let fst = self[startIndex..<index].lastIndex {
+        $0.timestamp != timestamp
+    } ?? index
+
+    return index.distance(to: fst)
+  }
+
+  //
+  // count the number of concurrent events postceding
+  //
+
   public func concurrent(after index: Index) -> Index.Stride {
 
     let timestamp = self[index].timestamp
@@ -40,16 +60,6 @@ extension BidirectionalCollection
     return fst.distance(to: lst)
   }
 
-  public func concurrent(before index: Index) -> Index.Stride {
-    let timestamp = self[index].timestamp
-    //
-    // starting at the previous index, iterate backwards until we find a non-concurrent event
-    //
-    let fst = self[startIndex..<index].lastIndex {
-        $0.timestamp != timestamp
-    } ?? index
 
-    return index.distance(to: fst)
-  }
 }
 
