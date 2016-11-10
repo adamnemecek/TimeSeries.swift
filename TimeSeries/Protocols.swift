@@ -68,6 +68,7 @@ protocol UniquelyHashable: Hashable {
 
 protocol SortedCollection: BidirectionalCollection {
   associatedtype _Element: Comparable = Iterator.Element
+//  associatedtype  _SubSequence: Sequence = 
 }
 
 //extension SortedCollection {

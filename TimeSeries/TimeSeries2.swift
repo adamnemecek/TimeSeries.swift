@@ -9,24 +9,35 @@
 import Foundation
 
 
-extension SortedCollection where Iterator.Element: Temporal {
-  func concurrent(before index: Index) -> IndexDistance {
+extension BidirectionalCollection
+  where
+    Index: Strideable,
+    Iterator.Element: Temporal,
+    SubSequence: Collection,
+    SubSequence.Iterator.Element == Iterator.Element,
+    SubSequence.Index == Index {
+
+  func concurrent(after index: Index) -> Index.Stride {
 
     let timestamp = self[index].timestamp
+    //
+    // get index of the following event
+    //
+    let fst = self.index(after: index)
 
-//    return self[startIndex..<index].reversed().countWhile {
-//      $0.timestamp == timestamp
-//    }
-    fatalError()
+    //
+    // starting at the next index, find an event that isn't concurrent
+    //
+    let lst = self[fst..<endIndex].index {
+        $0.timestamp != timestamp
+    }
+    return fst.distance(to: lst ?? fst)
   }
 
-  func concurrent(after index: Index) -> IndexDistance {
+  func concurrent(before index: Index) -> Index.Stride {
+    let q =  self[startIndex..<endIndex]
+    let g = q.reversed()
 
-//    let timestamp = self[index].timestamp
-
-//    return self[startIndex..<index].reversed().countWhile {
-//      $0.timestamp == timestamp
-//    }
     fatalError()
   }
 }
