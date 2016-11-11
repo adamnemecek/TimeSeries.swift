@@ -142,8 +142,8 @@ extension Sequenceable
 }
 
 protocol MutableSequenceable: Sequenceable, MutableCollection {
-  subscript (timestamp: Timestamp) -> SubSequence { get set }
-  subscript (timerange: Range<Timestamp>) -> SubSequence { get set }
+//  subscript (timestamp: Timestamp) -> SubSequence { get set }
+//  subscript (timerange: Range<Timestamp>) -> SubSequence { get set }
 }
 
 

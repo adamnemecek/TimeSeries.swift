@@ -71,6 +71,16 @@ protocol SortedCollection: BidirectionalCollection {
 //  associatedtype  _SubSequence: Sequence = 
 }
 
+extension SortedCollection {
+  func min() -> Iterator.Element? {
+    return first
+  }
+
+  func max() -> Iterator.Element? {
+    return last
+  }
+}
+
 
 //extension SortedCollection {
 //  func index(of: Iterator.Element) -> Index? {

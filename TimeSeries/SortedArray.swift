@@ -18,7 +18,9 @@ public struct SortedArray<Element: Comparable>: MutableCollection,
   public typealias SubSequence = ArraySlice<Element>
   public typealias Index = Int
 
-  internal var content: [Element] {
+  //todo fileprivate?
+  internal
+  var content: [Element] {
     didSet {
       content = content.sorted()
     }
@@ -64,7 +66,7 @@ public struct SortedArray<Element: Comparable>: MutableCollection,
   }
 
   public func index(after index: Index) -> Index {
-    return index + 1
+    return content.index(after: index)
   }
 
   public func index(of element: Element) -> Index? {
@@ -78,18 +80,6 @@ public struct SortedArray<Element: Comparable>: MutableCollection,
 extension SortedArray {
   public func sorted() -> [Element] {
     return content
-  }
-
-  public func max() -> Element? {
-    return content.last
-  }
-
-  public var last: Element? {
-    return content.last
-  }
-
-  public func min() -> Element? {
-    return content.first
   }
 }
 
@@ -115,7 +105,7 @@ extension SortedArray: RandomAccessCollection {
 
 extension SortedArray: BidirectionalCollection {
   public func index(before index: Index) -> Index {
-    return index - 1
+    return content.index(before: index)
   }
 }
 

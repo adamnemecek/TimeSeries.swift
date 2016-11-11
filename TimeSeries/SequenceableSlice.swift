@@ -8,22 +8,22 @@
 
 import Foundation
 
-protocol SliceProtocol: Collection {
-  associatedtype Base
-  var base: Base { get }
-  init(base: Base, bounds: Range<Index>)
-}
+//protocol SliceProtocol: Collection {
+//  associatedtype Base
+//  var base: Base { get }
+//  init(base: Base, bounds: Range<Index>)
+//}
+//
+//extension Slice: SliceProtocol { }
 
-extension Slice: SliceProtocol { }
 
-
-struct SequenceableSlice<Base: Sequenceable>: Sequenceable, MutableCollection where Base.Iterator.Element: Temporal {
+struct SequenceableSlice<Base: MutableSequenceable>: MutableSequenceable, MutableCollection where Base.Iterator.Element: Temporal {
 
   typealias Element = Base.Iterator.Element
   typealias Timestamp = Element.Timestamp
   typealias Index = Base.Index
 
-  let base: Base
+  private(set) var base: Base
 
   let startIndex: Index
   let endIndex: Index
@@ -54,26 +54,34 @@ struct SequenceableSlice<Base: Sequenceable>: Sequenceable, MutableCollection wh
     self.base = base
     self.startTimestamp = timerange.lowerBound
     self.endTimestamp = timerange.upperBound
-//    self.startIndex = base.index(before: base.first!.timestamp)
     self.startIndex = base.endIndex
     self.endIndex = base.endIndex
   }
 
   subscript (index: Index) -> Element {
     get {
-      fatalError()
+      return base[index]
     }
     set {
-//      base.
+      base[index] = newValue
     }
+  }
+
+  subscript (bounds: Range<Index>) -> SequenceableSlice {
+     get {
+      fatalError()
+      }
+      set {
+        fatalError()
+      }
   }
 
   func index(before i: Index) -> Index {
-    fatalError()
+    return base.index(before: i)
   }
 
   func index(after i: Index) -> Index {
-    fatalError()
+    return base.index(after: i)
   }
 
 }
