@@ -15,11 +15,14 @@ public struct SortedArray<Element: Comparable>: MutableCollection,
                                                 Equatable,
                                                 SequenceInitializable {
 
-
   public typealias SubSequence = ArraySlice<Element>
   public typealias Index = Int
 
-  internal var content: [Element]
+  internal var content: [Element] {
+    didSet {
+      content = content.sorted()
+    }
+  }
 
   public init() {
     content = []
@@ -47,7 +50,7 @@ public struct SortedArray<Element: Comparable>: MutableCollection,
     }
     set {
       content[index] = newValue
-      content = content.sorted()
+//      content = content.sorted()
     }
   }
 
@@ -81,6 +84,10 @@ extension SortedArray {
     return content.last
   }
 
+  public var last: Element? {
+    return content.last
+  }
+
   public func min() -> Element? {
     return content.first
   }
@@ -89,17 +96,22 @@ extension SortedArray {
 extension SortedArray: RangeReplaceableCollection {
   public mutating func replaceSubrange<C: Collection>(_ subrange: Range<Index>, with newElements: C) where C.Iterator.Element == Element {
     //
-    // todo: optimize
+    // todo: optimize, check if the
     //
     content.replaceSubrange(subrange, with: newElements)
-    content = content.sorted()
+//    content = content.sorted()
   }
 
   public mutating func append<S: Sequence>(contentsOf newElements: S) where S.Iterator.Element == Element {
     content.append(contentsOf: newElements)
-    content = content.sorted()
+//    content = content.sorted()
   }
 }
+
+extension SortedArray: RandomAccessCollection {
+  public typealias Indices = Array<Element>.Indices
+}
+
 
 extension SortedArray: BidirectionalCollection {
   public func index(before index: Index) -> Index {

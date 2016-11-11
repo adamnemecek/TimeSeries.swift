@@ -42,6 +42,7 @@ public struct TimeSeries<Event: Temporal>: MutableCollection,
                                            SortedCollection,
                                            ExpressibleByArrayLiteral,
                                            DefaultConstructible,
+                                           SequenceInitializable,
                                            Equatable {
 
   public typealias Timestamp = Event.Timestamp
@@ -108,6 +109,10 @@ extension TimeSeries: RangeReplaceableCollection {
 }
 
 extension TimeSeries: Sequenceable {
+  func move(by: Event.Timestamp) -> TimeSeries<Event> {
+    fatalError()
+  }
+
   public func index(of timestamp: Timestamp, insertion: Bool = false) -> Index? {
     return content.index(of: timestamp, insertion: insertion)
   }

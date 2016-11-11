@@ -37,6 +37,8 @@ protocol Sequenceable: BidirectionalCollection {
   var endTimestamp: Timestamp { get }
   var lastTimestamp: Timestamp{ get }
 
+  func move(by: Timestamp) -> Self
+
   func range(at timestamp: Timestamp) -> Range<Index>?
 
   func range(within timerange: Range<Timestamp>) -> Range<Index>?
@@ -139,15 +141,12 @@ extension Sequenceable
 //  }
 }
 
-protocol MutableSequenceable: Sequenceable {
+protocol MutableSequenceable: Sequenceable, MutableCollection {
   subscript (timestamp: Timestamp) -> SubSequence { get set }
   subscript (timerange: Range<Timestamp>) -> SubSequence { get set }
 }
 
 
-protocol BidirectionalSequenceable : Sequenceable {
-  func timestamp(before timestamp: Timestamp) -> Timestamp
-}
 
 protocol RangeReplaceableSequencable: Sequenceable {
 
