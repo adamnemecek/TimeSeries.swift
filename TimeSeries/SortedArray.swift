@@ -102,6 +102,12 @@ extension SortedArray: RandomAccessCollection {
   public typealias Indices = Array<Element>.Indices
 }
 
+extension SortedArray: CustomStringConvertible {
+  public var description: String {
+    return "SortedArray(\(content))"
+  }
+}
+
 
 extension SortedArray: BidirectionalCollection {
   public func index(before index: Index) -> Index {

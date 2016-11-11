@@ -87,11 +87,11 @@ public struct TimeSeries<Event: Temporal>: MutableCollection,
 
   public subscript(bounds: Range<Index>) -> SubSequence {
     get {
-//      return content[bounds]
-    fatalError()
+      return content[bounds]
+//    fatalError()
     }
     set {
-//      content[bounds] = newValue
+      content[bounds] = newValue
     }
   }
 }

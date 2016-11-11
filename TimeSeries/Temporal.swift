@@ -26,7 +26,7 @@ extension BidirectionalCollection
   // count the number of concurrent events preceding index
   //
 
-  public func concurrent(before index: Index) -> Index.Stride {
+  public func precurrent(of index: Index) -> Index.Stride {
     let timestamp = self[index].timestamp
     //
     // starting at the previous index, iterate backwards until we find a non-concurrent event
@@ -42,7 +42,7 @@ extension BidirectionalCollection
   // count the number of concurrent events postceding
   //
 
-  public func concurrent(after index: Index) -> Index.Stride {
+  public func postcurrent(of index: Index) -> Index.Stride {
 
     let timestamp = self[index].timestamp
     //

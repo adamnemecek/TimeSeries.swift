@@ -37,6 +37,7 @@
 		3780E2A81DD4E02A005867E2 /* Sequenceable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sequenceable.swift; sourceTree = "<group>"; };
 		3780E2AB1DD525FA005867E2 /* Temporal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temporal.swift; sourceTree = "<group>"; };
 		37B8D1581DD52E20000E3EE3 /* SequenceableSlice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceableSlice.swift; sourceTree = "<group>"; };
+		37D3F35C1DD56C4700A3061F /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		37F8887D1DD2AAA200989091 /* TimeSeries */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TimeSeries; sourceTree = BUILT_PRODUCTS_DIR; };
 		37F888801DD2AAA200989091 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		37F888871DD2AAC200989091 /* TimeSeries3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeries3.swift; sourceTree = "<group>"; };
@@ -73,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				37F8888E1DD2C3B100989091 /* README.md */,
+				37D3F35C1DD56C4700A3061F /* Package.swift */,
 				37F8888D1DD2C3A000989091 /* LICENSE */,
 				37F8887F1DD2AAA200989091 /* TimeSeries */,
 				37F8887E1DD2AAA200989091 /* Products */,

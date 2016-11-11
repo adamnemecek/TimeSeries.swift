@@ -86,6 +86,10 @@ extension Range {
 
 
 extension BidirectionalCollection {
+  var lastIndex: Index {
+    return last.map { _ in self.index(before: endIndex) } ?? startIndex
+  }
+
   //
   // like index
   //
@@ -94,12 +98,19 @@ extension BidirectionalCollection {
 
     while true {
       let prev = index(before: start)
+
+      guard prev > startIndex else { return nil }
+//      let prev = index(before: start)
+//      print("prev, ", prev)
+//      print("self[prev], ", self[prev])
       if predicate(self[prev]) {
         return prev
       }
       start = prev
     }
+
     return nil
+
   }
 }
 

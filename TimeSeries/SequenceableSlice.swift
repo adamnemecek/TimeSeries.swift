@@ -16,7 +16,7 @@ import Foundation
 //
 //extension Slice: SliceProtocol { }
 
-
+/*
 struct SequenceableSlice<Base: MutableSequenceable>: MutableSequenceable, MutableCollection where Base.Iterator.Element: Temporal {
 
   typealias Element = Base.Iterator.Element
@@ -54,8 +54,13 @@ struct SequenceableSlice<Base: MutableSequenceable>: MutableSequenceable, Mutabl
     self.base = base
     self.startTimestamp = timerange.lowerBound
     self.endTimestamp = timerange.upperBound
-    self.startIndex = base.endIndex
-    self.endIndex = base.endIndex
+    let r : Timestamp = timerange.lowerBound
+    base.index(of: <#T##Base.Timestamp#>, insertion: <#T##Bool#>)
+
+    let t = base.index(of: timerange.lowerBound, insertion: false)
+    let z =  t ?? Timestamp()
+    self.startIndex = z
+    self.endIndex = base.index(of: timerange.upperBound, insertion: true) ?? Timestamp()
   }
 
   subscript (index: Index) -> Element {
@@ -86,4 +91,4 @@ struct SequenceableSlice<Base: MutableSequenceable>: MutableSequenceable, Mutabl
 
 }
 
-
+*/

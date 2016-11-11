@@ -48,7 +48,7 @@ func ==(lhs: Note, rhs: Note) -> Bool {
 
 func <(lhs: Note, rhs: Note) -> Bool {
   return lhs.timestamp < rhs.timestamp ||
-         (lhs.timestamp == rhs.timestamp && lhs.pitch < rhs.pitch)
+        (lhs.timestamp == rhs.timestamp && lhs.pitch < rhs.pitch)
 
 }
 
@@ -57,7 +57,15 @@ func <(lhs: Note, rhs: Note) -> Bool {
 func test() {
   let q = (0...4).map { Note(timestamp: $0 * 10, duration : $0 * 10, pitch : $0 * 10) }
   let b = SortedArray(q + [q[0], q[0]])
-  print(b.concurrent(after: 0))
+  print(b.precurrent(of: 1))
+
+  let c = TimeSeries(b)
+  let p = c.range(at: 0).map {
+
+    return c[$0]
+  }
+  print("stuff: ", p)
+//  print(c.)
 
 
 }
